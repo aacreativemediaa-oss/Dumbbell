@@ -49,7 +49,7 @@ Muzik 113 BPM; semua potongan jatuh atas beat. Muzik "drop" pada 0:17 = mula mon
 
 ## 4. Teknikal
 
-- Format: 1080×1920 (9:16), 30 fps, H.264 + AAC.
+- Format: 1080×1920 (9:16), 60 fps, H.264 + AAC (≈ 19 Mbps).
 - Muzik: `Sound 1` dari folder Drive (`assets/audio/bgm.m4a`), volume 0.5, fade-out 1.4 s.
 - SFX: pustaka bunyi terbina dalam HyperFrames (`assets/sfx/`).
 - Fon: Archivo Black (tajuk) + Inter (label).
