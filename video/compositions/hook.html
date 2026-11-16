@@ -1,0 +1,62 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; font-family: "Archivo Black", sans-serif; }
+    .hk-block { position: absolute; left: 0; width: 1080px; text-align: center; overflow: visible; }
+    .hk-white {
+      display: block; color: #fff; text-transform: uppercase; line-height: 1;
+      -webkit-text-stroke: 16px #111; paint-order: stroke fill;
+      text-shadow: 0 10px 0 rgba(0, 0, 0, 0.35);
+    }
+    .hk-yellow { color: #ffd21f; }
+    #hk-a { top: 330px; }
+    #hk-a-line { font-size: 100px; }
+    #hk-year-box {
+      display: inline-block; margin-top: 22px; height: 216px; overflow: hidden;
+      background: #ffd21f; border-radius: 28px; padding: 0 44px;
+      box-shadow: 0 12px 0 #111; border: 8px solid #111;
+    }
+    #hk-year-col { display: flex; flex-direction: column; }
+    .hk-year { font-size: 190px; line-height: 200px; height: 200px; color: #111; letter-spacing: -4px; }
+    #hk-b { top: 330px; }
+    #hk-b-line { font-size: 120px; }
+    #hk-b-big { font-size: 128px; margin-top: 18px; display: inline-block; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <!-- line A : AZAM TAHUN 2026 -> 2027 -->
+    <div id="hk-a" class="hk-block clip" data-start="0" data-duration="1.633" data-track-index="0">
+      <div id="hk-a-in">
+        <span id="hk-a-line" class="hk-white">AZAM TAHUN</span>
+        <div id="hk-year-box">
+          <div id="hk-year-col">
+            <span class="hk-year">2026</span>
+            <span class="hk-year">2027</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- line B : NAK TRIM GELEBEH! -->
+    <div id="hk-b" class="hk-block clip" data-start="1.633" data-duration="1.6" data-track-index="0">
+      <span id="hk-b-line" class="hk-white">NAK TRIM</span>
+      <span id="hk-b-big" class="hk-white hk-yellow">GELEBEH!</span>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // frame 0 already reads: big text slams down into place
+    tl.fromTo("#hk-a-in", { scale: 1.35, opacity: 1 }, { scale: 1, duration: 0.32, ease: "expo.out" }, 0);
+    // year rolls 2026 -> 2027 like a slot machine
+    tl.fromTo("#hk-year-col", { y: 0 }, { y: -200, duration: 0.2, ease: "power3.inOut" }, 0.38);
+    tl.fromTo("#hk-year-box", { scale: 1 }, { scale: 1.14, duration: 0.08, ease: "power2.out" }, 0.56);
+    tl.to("#hk-year-box", { scale: 1, duration: 0.35, ease: "elastic.out(1, 0.5)" }, 0.64);
+    // exit A
+    tl.to("#hk-a-in", { opacity: 0, y: -40, filter: "blur(8px)", duration: 0.12, ease: "power2.in" }, 1.5);
+    tl.set("#hk-a-in", { opacity: 0 }, 1.633);
+    // B: NAK TRIM blurs in, GELEBEH! slams and jiggles like a belly
+    tl.fromTo("#hk-b-line", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, 1.633);
+    tl.fromTo("#hk-b-big", { scale: 1.9, opacity: 0, rotation: -6 }, { scale: 1, opacity: 1, rotation: -3, duration: 0.3, ease: "expo.out" }, 1.72);
+    tl.fromTo("#hk-b-big", { scaleX: 1, scaleY: 1 }, { scaleX: 1.12, scaleY: 0.9, duration: 0.09, ease: "sine.inOut", yoyo: true, repeat: 5 }, 2.05);
+    tl.to("#hk-b-big", { scaleX: 1, scaleY: 1, duration: 0.1 }, 2.6);
+    tl.to("#hk-b", { opacity: 0, duration: 0.1, ease: "power2.in" }, 3.12);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

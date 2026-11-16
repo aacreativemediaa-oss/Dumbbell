@@ -1,0 +1,41 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; font-family: "Archivo Black", sans-serif; }
+    #wt-head { position: absolute; left: 0; top: 280px; width: 1080px; text-align: center; overflow: visible; }
+    .wt-white {
+      color: #fff; text-transform: uppercase; line-height: 1.02;
+      -webkit-text-stroke: 14px #111; paint-order: stroke fill;
+      text-shadow: 0 8px 0 rgba(0, 0, 0, 0.35);
+      font-size: 104px; display: block;
+    }
+    .wt-w { display: inline-block; }
+    .wt-badge { position: absolute; left: 0; top: 880px; width: 1080px; height: 300px; text-align: center; overflow: visible; }
+    .wt-disc {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 270px; height: 270px; border-radius: 50%; border: 10px solid #111;
+      box-shadow: 0 14px 0 #111; color: #111; font-size: 100px; letter-spacing: -3px;
+    }
+    #wt-d1 { background: #8fc4f2; }
+    #wt-d2 { background: #f6a6c6; }
+    #wt-d3 { background: #a6ebc6; }
+  </style>
+  <div id="root" data-composition-id="weights" data-width="1080" data-height="1920">
+    <div id="wt-head" class="clip" data-start="0" data-duration="3.167" data-track-index="0">
+      <span class="wt-white"><span class="wt-w">BANYAK</span></span>
+      <span class="wt-white"><span class="wt-w">PILIHAN</span></span>
+      <span class="wt-white"><span class="wt-w">BERAT</span></span>
+    </div>
+    <div id="wt-b1" class="wt-badge clip" data-start="0" data-duration="1.067" data-track-index="1"><span id="wt-d1" class="wt-disc">1KG</span></div>
+    <div id="wt-b2" class="wt-badge clip" data-start="1.067" data-duration="1.067" data-track-index="1"><span id="wt-d2" class="wt-disc">2KG</span></div>
+    <div id="wt-b3" class="wt-badge clip" data-start="2.133" data-duration="1.034" data-track-index="1"><span id="wt-d3" class="wt-disc">3KG</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#wt-head .wt-w", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.14, stagger: 0.07, ease: "power4.out" }, 0.04);
+    // each weight badge pops on its cut
+    [["#wt-d1", 0.02], ["#wt-d2", 1.087], ["#wt-d3", 2.153]].forEach(([id, t], i) => {
+      tl.fromTo(id, { scale: 0, rotation: -40 }, { scale: 1, rotation: i % 2 ? 8 : -8, duration: 0.42, ease: "back.out(2)" }, t);
+    });
+    window.__timelines["weights"] = tl;
+  </script>
+</template>

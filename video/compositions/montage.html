@@ -1,0 +1,58 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; font-family: "Archivo Black", sans-serif; }
+    .mt-lbl { position: absolute; left: 0; top: 960px; width: 1080px; text-align: center; overflow: visible; }
+    .mt-stk {
+      display: inline-flex; align-items: center; gap: 20px;
+      background: #ffd21f; color: #111; font-size: 78px; line-height: 1.02; text-align: left;
+      padding: 16px 36px 24px; border-radius: 26px; border: 8px solid #111; box-shadow: 0 12px 0 #111;
+    }
+    .mt-chk { width: 84px; height: 84px; flex: none; }
+    #mt-l4 { top: 920px; }
+    .mt-white {
+      display: block; color: #fff; text-transform: uppercase; line-height: 1;
+      -webkit-text-stroke: 16px #111; paint-order: stroke fill;
+      text-shadow: 0 10px 0 rgba(0, 0, 0, 0.35); font-size: 120px;
+    }
+    #mt-l4-big { color: #ffd21f; font-size: 128px; margin-top: 12px; display: inline-block; }
+    #mt-tag {
+      position: absolute; left: 0; top: 290px; width: 1080px; text-align: center;
+    }
+    #mt-tag span {
+      display: inline-block; background: #111; color: #fff; font-family: "Inter", sans-serif; font-weight: 900;
+      font-size: 46px; letter-spacing: 4px; padding: 14px 30px; border-radius: 999px;
+    }
+  </style>
+  <div id="root" data-composition-id="montage" data-width="1080" data-height="1920">
+    <div id="mt-tag" class="clip" data-start="0" data-duration="6.4" data-track-index="1"><span id="mt-tag-in">SENAMAN MUDAH</span></div>
+
+    <div id="mt-l1" class="mt-lbl clip" data-start="0" data-duration="2.133" data-track-index="0">
+      <span id="mt-s1" class="mt-stk">KAT RUMAH <svg class="mt-chk" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#1fbf5b" stroke="#111" stroke-width="8"/><path d="M34 62 L53 80 L88 42" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </div>
+    <div id="mt-l2" class="mt-lbl clip" data-start="2.133" data-duration="2.134" data-track-index="0">
+      <span id="mt-s2" class="mt-stk">KAT PADANG <svg class="mt-chk" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#1fbf5b" stroke="#111" stroke-width="8"/><path d="M34 62 L53 80 L88 42" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </div>
+    <div id="mt-l3" class="mt-lbl clip" data-start="4.267" data-duration="2.133" data-track-index="0">
+      <span id="mt-s3" class="mt-stk"><span>BILA-BILA<br />MASA</span> <svg class="mt-chk" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#1fbf5b" stroke="#111" stroke-width="8"/><path d="M34 62 L53 80 L88 42" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </div>
+    <div id="mt-l4" class="mt-lbl clip" data-start="6.4" data-duration="2.1" data-track-index="0">
+      <span id="mt-l4-line" class="mt-white">BYE BYE</span>
+      <span id="mt-l4-big" class="mt-white">GELEBEH!</span>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#mt-tag-in", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, 0.15);
+    tl.to("#mt-tag-in", { opacity: 0, duration: 0.12 }, 6.25);
+    [["#mt-s1", 0.06], ["#mt-s2", 2.18], ["#mt-s3", 4.31]].forEach(([id, t], i) => {
+      tl.fromTo(id, { scale: 0.2, opacity: 0, rotation: i % 2 ? -10 : 10 }, { scale: 1, opacity: 1, rotation: i % 2 ? 2 : -2, duration: 0.4, ease: "back.out(1.8)" }, t);
+      tl.to(id, { opacity: 0, scale: 0.85, duration: 0.1, ease: "power2.in" }, t + 1.95);
+    });
+    tl.fromTo("#mt-l4-line", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, 6.42);
+    tl.fromTo("#mt-l4-big", { scale: 1.9, opacity: 0, rotation: 6 }, { scale: 1, opacity: 1, rotation: -3, duration: 0.3, ease: "expo.out" }, 6.48);
+    tl.fromTo("#mt-l4-big", { scaleX: 1, scaleY: 1 }, { scaleX: 1.1, scaleY: 0.92, duration: 0.09, yoyo: true, repeat: 5, ease: "sine.inOut" }, 6.85);
+    tl.to("#mt-l4-big", { scaleX: 1, scaleY: 1, duration: 0.1 }, 7.4);
+    tl.to("#mt-l4", { opacity: 0, duration: 0.1, ease: "power2.in" }, 8.38);
+    window.__timelines["montage"] = tl;
+  </script>
+</template>

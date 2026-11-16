@@ -1,0 +1,71 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; font-family: "Archivo Black", sans-serif; }
+    #ch-bg { position: absolute; inset: 0; background: radial-gradient(120% 70% at 50% 45%, #2a2a31 0%, #121215 70%); }
+    #ch-head { position: absolute; left: 0; top: 280px; width: 1080px; text-align: center; overflow: visible; }
+    .ch-white {
+      color: #fff; text-transform: uppercase; line-height: 1.02;
+      -webkit-text-stroke: 14px #111; paint-order: stroke fill;
+      text-shadow: 0 8px 0 rgba(0, 0, 0, 0.35);
+      font-size: 104px; display: block;
+    }
+    #ch-berat-wrap { display: inline-block; position: relative; }
+    #ch-sticker {
+      position: absolute; left: -28px; right: -28px; top: -6px; bottom: -14px;
+      background: #ffd21f; border: 8px solid #111; border-radius: 24px; box-shadow: 0 10px 0 #111;
+    }
+    #ch-berat { position: relative; }
+    #ch-berat-ink { position: absolute; left: 0; top: 0; color: #111; -webkit-text-stroke: 0; text-shadow: none; opacity: 0; }
+    .ch-card {
+      position: absolute; top: 680px; width: 250px; height: 444px; border-radius: 26px;
+      overflow: hidden; border: 8px solid #111; box-shadow: 0 16px 0 rgba(0, 0, 0, 0.6);
+    }
+    #ch-c1 { left: 135px; background: #8fc4f2; }
+    #ch-c2 { left: 415px; background: #f6a6c6; }
+    #ch-c3 { left: 695px; background: #a6ebc6; }
+    .ch-vid { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+    .ch-chip {
+      position: absolute; top: 1140px; width: 250px; text-align: center;
+    }
+    .ch-chip span {
+      display: inline-block; padding: 10px 30px 16px; border-radius: 999px; border: 7px solid #111;
+      color: #111; font-size: 56px; line-height: 1; box-shadow: 0 8px 0 #111;
+    }
+    #ch-k1 { left: 135px; } #ch-k1 span { background: #8fc4f2; }
+    #ch-k2 { left: 415px; } #ch-k2 span { background: #f6a6c6; }
+    #ch-k3 { left: 695px; } #ch-k3 span { background: #a6ebc6; }
+    #ch-foot {
+      position: absolute; left: 0; top: 1236px; width: 1080px; text-align: center;
+      font-family: "Inter", sans-serif; font-weight: 900; font-size: 56px; color: #fff; line-height: 1;
+    }
+  </style>
+  <div id="root" data-composition-id="choices" data-width="1080" data-height="1920">
+    <div id="ch-bg"></div>
+    <div id="ch-head" class="clip" data-start="0" data-duration="3.2" data-track-index="0">
+      <span class="ch-white">BANYAK</span>
+      <span class="ch-white">PILIHAN</span>
+      <span class="ch-white"><span id="ch-berat-wrap"><span id="ch-sticker"></span><span id="ch-berat">BERAT!</span><span id="ch-berat-ink">BERAT!</span></span></span>
+    </div>
+
+    <div id="ch-c1" class="ch-card"><video id="ch-v1" class="clip ch-vid" src="assets/video/pair1.mp4" data-start="0" data-duration="3.2" data-track-index="1" muted playsinline></video></div>
+    <div id="ch-c2" class="ch-card"><video id="ch-v2" class="clip ch-vid" src="assets/video/pair2.mp4" data-start="0" data-duration="3.2" data-track-index="2" muted playsinline></video></div>
+    <div id="ch-c3" class="ch-card"><video id="ch-v3" class="clip ch-vid" src="assets/video/pair3.mp4" data-start="0" data-duration="3.2" data-playback-rate="0.5" data-track-index="3" muted playsinline></video></div>
+
+    <div id="ch-k1" class="ch-chip"><span>1KG</span></div>
+    <div id="ch-k2" class="ch-chip"><span>2KG</span></div>
+    <div id="ch-k3" class="ch-chip"><span>3KG</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // cards rise in, staggered
+    tl.fromTo([".ch-card"], { y: 420, opacity: 0, rotation: 6 }, { y: 0, opacity: 1, rotation: 0, duration: 0.6, stagger: 0.14, ease: "expo.out" }, 0.18);
+    tl.fromTo([".ch-chip span"], { scale: 0 }, { scale: 1, duration: 0.4, stagger: 0.14, ease: "back.out(2)" }, 0.5);
+    // BERAT! turns into a yellow sticker
+    tl.fromTo("#ch-sticker", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.25, ease: "power3.out" }, 0.95);
+    tl.fromTo("#ch-berat", { opacity: 1 }, { opacity: 0, duration: 0.1 }, 1.02);
+    tl.fromTo("#ch-berat-ink", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 1.02);
+    // exit
+    tl.to([".ch-card", ".ch-chip"], { opacity: 0, scale: 0.9, duration: 0.12, ease: "power2.in" }, 3.06);
+    window.__timelines["choices"] = tl;
+  </script>
+</template>

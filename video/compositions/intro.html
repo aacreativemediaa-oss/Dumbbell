@@ -1,0 +1,31 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; font-family: "Archivo Black", sans-serif; }
+    #in-block { position: absolute; left: 0; top: 930px; width: 1080px; text-align: center; overflow: visible; }
+    .in-white {
+      color: #fff; text-transform: uppercase; line-height: 1;
+      -webkit-text-stroke: 14px #111; paint-order: stroke fill;
+      text-shadow: 0 8px 0 rgba(0, 0, 0, 0.35);
+    }
+    #in-line { font-size: 66px; display: block; }
+    .in-w { display: inline-block; }
+    #in-sticker {
+      display: inline-block; margin-top: 22px; background: #ffd21f; color: #111;
+      font-size: 112px; line-height: 1; padding: 18px 40px 26px; border-radius: 26px;
+      border: 8px solid #111; box-shadow: 0 12px 0 #111;
+    }
+  </style>
+  <div id="root" data-composition-id="intro" data-width="1080" data-height="1920">
+    <div id="in-block" class="clip" data-start="0" data-duration="2.1" data-track-index="0">
+      <span id="in-line" class="in-white"><span class="in-w">JOM</span> <span class="in-w">MULA</span> <span class="in-w">DENGAN</span></span>
+      <span id="in-sticker">DUMBBELL!</span>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#in-line .in-w", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.14, stagger: 0.08, ease: "power4.out" }, 0.08);
+    tl.fromTo("#in-sticker", { scale: 0.3, opacity: 0, rotation: 6 }, { scale: 1, opacity: 1, rotation: -2, duration: 0.45, ease: "back.out(1.6)" }, 0.36);
+    tl.to("#in-block", { opacity: 0, duration: 0.1, ease: "power2.in" }, 1.98);
+    window.__timelines["intro"] = tl;
+  </script>
+</template>

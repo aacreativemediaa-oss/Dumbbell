@@ -1,0 +1,75 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; font-family: "Archivo Black", sans-serif; }
+    #ct-dim {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.25) 38%, rgba(0,0,0,0.25) 52%, rgba(0,0,0,0.72) 78%, rgba(0,0,0,0.8) 100%);
+    }
+    .ct-white {
+      display: block; color: #fff; text-transform: uppercase; line-height: 1;
+      -webkit-text-stroke: 16px #111; paint-order: stroke fill;
+      text-shadow: 0 10px 0 rgba(0, 0, 0, 0.35);
+    }
+    #ct-q { position: absolute; left: 0; top: 280px; width: 1080px; text-align: center; overflow: visible; }
+    #ct-q1 { font-size: 112px; }
+    #ct-q2 { font-size: 128px; color: #ffd21f; margin-top: 10px; display: inline-block; }
+    #ct-grab { position: absolute; left: 0; top: 600px; width: 1080px; text-align: center; overflow: visible; }
+    .ct-gw { display: inline-block; font-size: 76px; margin: 0 0.14em; }
+    #ct-card {
+      position: absolute; left: 100px; top: 960px; width: 700px; height: 230px;
+      background: #ffd21f; border: 10px solid #111; border-radius: 36px; box-shadow: 0 16px 0 #111;
+      display: flex; align-items: center; gap: 28px; padding: 0 30px;
+    }
+    #ct-bagdisc {
+      flex: none; width: 150px; height: 150px; border-radius: 50%; background: #111;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #ct-bag { width: 110px; height: 110px; }
+    #ct-cardtxt { color: #111; font-size: 80px; line-height: 0.98; letter-spacing: -1px; }
+    #ct-arrow { position: absolute; left: 150px; top: 1250px; width: 150px; height: 190px; }
+  </style>
+  <div id="root" data-composition-id="cta" data-width="1080" data-height="1920">
+    <div id="ct-dim"></div>
+    <div id="ct-q" class="clip" data-start="0" data-duration="7.5" data-track-index="0">
+      <span id="ct-q1" class="ct-white">NAK TRIM</span>
+      <span id="ct-q2" class="ct-white">GELEBEH?</span>
+    </div>
+    <div id="ct-grab" class="clip" data-start="1.4" data-duration="6.1" data-track-index="1">
+      <span class="ct-white"><span class="ct-gw">GRAB</span> <span class="ct-gw">DUMBBELL</span></span>
+      <span class="ct-white"><span class="ct-gw">KORANG</span></span>
+    </div>
+    <div id="ct-cardclip" class="clip" data-start="2.0" data-duration="5.5" data-track-index="2">
+      <div id="ct-card">
+        <div id="ct-bagdisc">
+          <svg id="ct-bag" viewBox="0 0 100 100">
+            <path d="M16 34 H84 L78 90 H22 Z" fill="#ffd21f" stroke="#ffd21f" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M35 44 V28 a15 15 0 0 1 30 0 V44" fill="none" stroke="#ffd21f" stroke-width="7" stroke-linecap="round"/>
+            <circle cx="35" cy="46" r="4" fill="#111"/><circle cx="65" cy="46" r="4" fill="#111"/>
+          </svg>
+        </div>
+        <div id="ct-cardtxt">KAT BEG<br />KUNING!</div>
+      </div>
+      <svg id="ct-arrow" data-layout-ignore viewBox="0 0 150 190">
+        <path d="M75 10 V140 M25 95 L75 150 L125 95" fill="none" stroke="#111" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M75 10 V140 M25 95 L75 150 L125 95" fill="none" stroke="#ffd21f" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ct-dim", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0);
+    tl.fromTo("#ct-q1", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.04);
+    tl.fromTo("#ct-q2", { scale: 1.9, opacity: 0, rotation: -6 }, { scale: 1, opacity: 1, rotation: -3, duration: 0.32, ease: "expo.out" }, 0.12);
+    tl.fromTo("#ct-q2", { scaleX: 1, scaleY: 1 }, { scaleX: 1.1, scaleY: 0.92, duration: 0.09, yoyo: true, repeat: 3, ease: "sine.inOut" }, 0.5);
+    tl.to("#ct-q2", { scaleX: 1, scaleY: 1, duration: 0.1 }, 0.86);
+    tl.fromTo("#ct-grab .ct-gw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.14, stagger: 0.08, ease: "power4.out" }, 1.45);
+    tl.fromTo("#ct-card", { y: 360, opacity: 0, rotation: 4 }, { y: 0, opacity: 1, rotation: -1.5, duration: 0.5, ease: "expo.out" }, 2.05);
+    tl.fromTo("#ct-bagdisc", { scale: 0, rotation: -40 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.2)" }, 2.22);
+    tl.fromTo("#ct-bag", { rotation: 0 }, { rotation: 12, duration: 0.12, yoyo: true, repeat: 5, ease: "sine.inOut", transformOrigin: "50% 20%" }, 2.8);
+    tl.to("#ct-bag", { rotation: 0, duration: 0.1 }, 3.56);
+    // arrow nudges down toward the yellow basket
+    tl.fromTo("#ct-arrow", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, 2.6);
+    tl.to("#ct-arrow", { y: 36, duration: 0.3, yoyo: true, repeat: 13, ease: "sine.inOut" }, 2.95);
+    window.__timelines["cta"] = tl;
+  </script>
+</template>

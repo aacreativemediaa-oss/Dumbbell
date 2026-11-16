@@ -1,0 +1,95 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; font-family: "Archivo Black", sans-serif; }
+    .us-block { position: absolute; left: 0; top: 290px; width: 1080px; text-align: center; overflow: visible; }
+    .us-white {
+      display: block; color: #fff; text-transform: uppercase; line-height: 1;
+      -webkit-text-stroke: 14px #111; paint-order: stroke fill;
+      text-shadow: 0 8px 0 rgba(0, 0, 0, 0.35); font-size: 112px;
+    }
+    .us-sticker {
+      display: inline-flex; align-items: center; gap: 22px; margin-top: 20px;
+      background: #ffd21f; color: #111; font-size: 96px; line-height: 1;
+      padding: 16px 40px 24px; border-radius: 26px; border: 8px solid #111; box-shadow: 0 12px 0 #111;
+    }
+    .us-icon { width: 92px; height: 92px; flex: none; }
+    /* bergolek demo panel */
+    #us-panel { position: absolute; left: 0; top: 930px; width: 1080px; height: 290px; }
+    .us-tile {
+      position: absolute; top: 0; width: 400px; height: 280px; border-radius: 30px;
+      background: #17171a; border: 6px solid #111; overflow: hidden;
+    }
+    #us-t1 { left: 120px; }
+    #us-t2 { left: 560px; }
+    .us-floor { position: absolute; left: 30px; right: 30px; top: 196px; height: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.35); }
+    .us-shape { position: absolute; top: 76px; width: 120px; height: 120px; }
+    #us-round { left: 70px; }
+    #us-hexa { left: 140px; }
+    .us-mark { position: absolute; right: 22px; top: 18px; width: 84px; height: 84px; }
+    .us-lbl {
+      position: absolute; left: 0; width: 100%; top: 218px; text-align: center;
+      font-family: "Inter", sans-serif; font-weight: 900; font-size: 44px; color: #fff; line-height: 1;
+    }
+  </style>
+  <div id="root" data-composition-id="usp" data-width="1080" data-height="1920">
+    <!-- A: BENTUK BERSEGI (0 - 1.6) -->
+    <div id="us-a" class="us-block clip" data-start="0" data-duration="1.6" data-track-index="0">
+      <span id="us-a-line" class="us-white">BENTUK</span>
+      <span id="us-a-stk" class="us-sticker">
+        <svg class="us-icon" viewBox="0 0 120 120"><polygon id="us-hexpath" points="60,8 105,34 105,86 60,112 15,86 15,34" fill="none" stroke="#111" stroke-width="12" stroke-linejoin="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg>
+        BERSEGI
+      </span>
+    </div>
+    <!-- B: SENANG PEGANG (1.6 - 3.2) -->
+    <div id="us-b" class="us-block clip" data-start="1.6" data-duration="1.6" data-track-index="0">
+      <span id="us-b-line" class="us-white">SENANG</span>
+      <span id="us-b-stk" class="us-sticker">
+        PEGANG
+        <svg id="us-b-check" class="us-icon" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#1fbf5b" stroke="#111" stroke-width="8"/><path d="M34 62 L53 80 L88 42" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </div>
+    <!-- C: TAK MUDAH BERGOLEK (3.2 - 5.3) -->
+    <div id="us-c" class="us-block clip" data-start="3.2" data-duration="2.1" data-track-index="0">
+      <span id="us-c-line" class="us-white">TAK MUDAH</span>
+      <span id="us-c-stk" class="us-sticker">BERGOLEK</span>
+    </div>
+    <div id="us-panel" class="clip" data-start="3.2" data-duration="2.1" data-track-index="1">
+      <div id="us-t1" class="us-tile" data-layout-allow-overflow>
+        <div class="us-floor"></div>
+        <svg id="us-round" class="us-shape" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#8fc4f2" stroke="#111" stroke-width="8"/><line x1="60" y1="14" x2="60" y2="60" stroke="#111" stroke-width="8" stroke-linecap="round"/></svg>
+        <svg id="us-x" class="us-mark" viewBox="0 0 84 84"><circle cx="42" cy="42" r="38" fill="#e5383b" stroke="#111" stroke-width="6"/><path d="M28 28 L56 56 M56 28 L28 56" stroke="#fff" stroke-width="10" stroke-linecap="round"/></svg>
+        <div class="us-lbl">BULAT</div>
+      </div>
+      <div id="us-t2" class="us-tile">
+        <div class="us-floor"></div>
+        <svg id="us-hexa" class="us-shape" viewBox="0 0 120 120"><polygon points="60,6 108,33 108,87 60,114 12,87 12,33" fill="#a6ebc6" stroke="#111" stroke-width="8" stroke-linejoin="round"/></svg>
+        <svg id="us-ok" class="us-mark" viewBox="0 0 84 84"><circle cx="42" cy="42" r="38" fill="#1fbf5b" stroke="#111" stroke-width="6"/><path d="M24 44 L37 57 L61 30" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="us-lbl">BERSEGI</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // A
+    tl.fromTo("#us-a-line", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, 0.05);
+    tl.fromTo("#us-a-stk", { scale: 0.2, opacity: 0, rotation: 8 }, { scale: 1, opacity: 1, rotation: -2, duration: 0.45, ease: "back.out(1.7)" }, 0.18);
+    tl.fromTo("#us-hexpath", { attr: { "stroke-dashoffset": 100 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.55, ease: "power2.inOut" }, 0.3);
+    tl.to("#us-a", { opacity: 0, duration: 0.1, ease: "power2.in" }, 1.48);
+    // B
+    tl.fromTo("#us-b-line", { opacity: 0, x: -80, filter: "blur(10px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 1.62);
+    tl.fromTo("#us-b-stk", { opacity: 0, x: 120 }, { opacity: 1, x: 0, rotation: 2, duration: 0.35, ease: "expo.out" }, 1.7);
+    tl.fromTo("#us-b-check", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(2.2)" }, 1.84);
+    tl.to("#us-b", { opacity: 0, duration: 0.1, ease: "power2.in" }, 3.08);
+    // C
+    tl.fromTo("#us-c-line", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, 3.22);
+    tl.fromTo("#us-c-stk", { scale: 1.8, opacity: 0, rotation: -8 }, { scale: 1, opacity: 1, rotation: -2, duration: 0.35, ease: "expo.out" }, 3.32);
+    tl.fromTo(".us-tile", { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: "expo.out" }, 3.36);
+    // round ball rolls away... hexagon just sits there
+    tl.fromTo("#us-round", { x: 0, rotation: 0 }, { x: 330, rotation: 300, duration: 0.75, ease: "power2.in" }, 3.75);
+    tl.fromTo("#us-x", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(2.4)" }, 4.08);
+    tl.fromTo("#us-hexa", { rotation: -18, transformOrigin: "50% 100%" }, { rotation: 0, duration: 0.5, ease: "elastic.out(1, 0.45)" }, 3.95);
+    tl.fromTo("#us-ok", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(2.4)" }, 4.5);
+    tl.to(["#us-c", "#us-panel"], { opacity: 0, duration: 0.1, ease: "power2.in" }, 5.18);
+    window.__timelines["usp"] = tl;
+  </script>
+</template>
