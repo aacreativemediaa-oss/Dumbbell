@@ -15,7 +15,7 @@
         src: url("assets/fonts/montserrat.woff2") format("woff2");
         font-weight: 100 900;
       }
-      /* Typography scale (repo CLAUDE.md): headline 100 · sub-headline/save sticker 47 · caption 40 · chip/label 19 */
+      /* Typography scale (repo CLAUDE.md): headline 100 · sub-headline/save sticker 47 · caption 40 · number 64 · chip/label 19 */
       :root {
         --ground: #0d0f12;
         --ink: #ffffff;
@@ -28,6 +28,7 @@
         --fs-headline: 100px;
         --fs-sub: 47px;
         --fs-caption: 40px;
+        --fs-number: 64px;
         --fs-chip: 19px;
         --font-display: "Anton", sans-serif;
         --font-body: "Montserrat", sans-serif;
@@ -229,34 +230,69 @@
       }
       .move .chip.target {
         margin-top: 18px;
+        display: flex;
+        width: fit-content;
         background: var(--pink);
         color: #1a0a10;
       }
-      .move .cap {
+      .move .row {
         margin-top: 16px;
-        display: inline-block;
+        display: flex;
+        gap: 14px;
+        align-items: stretch;
+      }
+      .move .cap {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
         background: rgba(0, 0, 0, 0.72);
         border-radius: 16px;
-        padding: 12px 24px;
+        padding: 12px 22px;
+        white-space: nowrap;
       }
       .move .cap b {
         color: var(--gold);
       }
-      .move .bar {
-        margin-top: 18px;
-        width: 520px;
-        height: 12px;
-        border-radius: 6px;
-        background: rgba(255, 255, 255, 0.25);
-        overflow: hidden;
+      .move .cap.rest {
+        border: 3px solid var(--gold);
       }
-      .move .bar i {
-        display: block;
-        width: 100%;
-        height: 100%;
+      .move .cap .sw {
+        width: 44px;
+        height: 44px;
+      }
+      .move .cap .sw .hand {
+        transform-origin: 12px 13.5px;
+      }
+      .move .counter {
+        margin-top: 18px;
+        display: inline-flex;
+        align-items: center;
+        gap: 18px;
         background: var(--gold);
-        transform-origin: 0 50%;
-        transform: scaleX(0);
+        border-radius: 22px;
+        padding: 10px 26px 10px 20px;
+        box-shadow: 0 8px 0 var(--gold-deep);
+      }
+      .move .counter .lbl {
+        background: #111;
+        color: var(--gold);
+      }
+      .move .counter .num {
+        position: relative;
+        width: 84px;
+        height: 72px;
+      }
+      .move .counter .n {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-display);
+        font-size: var(--fs-number);
+        line-height: 1;
+        color: #111;
+        opacity: 0;
       }
 
       /* ---------- program card ---------- */
@@ -498,21 +534,21 @@
       </defs>
     </svg>
 
-    <div id="root" data-composition-id="main" data-start="0" data-duration="38.76" data-width="1080" data-height="1920">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="53.05" data-width="1080" data-height="1920">
       <!-- ===================== FOOTAGE (cuts on a 113 BPM grid, 0.53 s per beat) ===================== -->
       <video id="v-h1" class="shot clip" src="assets/media/h1.mp4" data-start="0" data-duration="1.07" data-media-start="0" data-track-index="0" muted playsinline></video>
       <video id="v-h2" class="shot clip" src="assets/media/h2.mp4" data-start="1.07" data-duration="1.05" data-media-start="0" data-track-index="0" muted playsinline></video>
       <video id="v-h3" class="shot clip" src="assets/media/h3.mp4" data-start="2.12" data-duration="1.08" data-media-start="0" data-track-index="0" muted playsinline></video>
       <video id="v-save" class="shot clip" src="assets/media/save.mp4" data-start="3.2" data-duration="2.12" data-media-start="0" data-track-index="0" muted playsinline></video>
-      <video id="v-ex1" class="shot clip" src="assets/media/ex1.mp4" data-start="5.32" data-duration="5.3" data-media-start="0" data-track-index="0" muted playsinline></video>
-      <video id="v-ex2" class="shot clip" src="assets/media/ex2.mp4" data-start="10.62" data-duration="5.33" data-media-start="0" data-track-index="0" muted playsinline></video>
-      <video id="v-ex3a" class="shot clip" src="assets/media/ex3a.mp4" data-start="15.95" data-duration="2.67" data-media-start="0" data-track-index="0" muted playsinline></video>
-      <video id="v-ex3b" class="shot clip" src="assets/media/ex3b.mp4" data-start="18.62" data-duration="2.62" data-media-start="0" data-track-index="0" muted playsinline></video>
-      <video id="v-prog" class="shot clip" src="assets/media/prog.mp4" data-start="21.24" data-duration="3.19" data-media-start="0" data-track-index="0" muted playsinline></video>
-      <video id="v-u1a" class="shot clip" src="assets/media/u2_face.mp4" data-start="24.43" data-duration="1.59" data-media-start="0" data-track-index="0" muted playsinline></video>
-      <video id="v-u1b" class="shot clip" src="assets/media/u1_grip.mp4" data-start="26.02" data-duration="1.59" data-media-start="0" data-track-index="0" muted playsinline></video>
-      <video id="v-u1c" class="shot clip" src="assets/media/u3_face.mp4" data-start="27.61" data-duration="2.67" data-media-start="0" data-track-index="0" muted playsinline></video>
-      <video id="v-cta" class="shot clip" src="assets/media/cta.mp4" data-start="34.51" data-duration="4.25" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-ex1" class="shot clip" src="assets/media/ex1.mp4" data-start="5.32" data-duration="10.07" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-ex2" class="shot clip" src="assets/media/ex2.mp4" data-start="15.39" data-duration="10.07" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-ex3a" class="shot clip" src="assets/media/ex3a.mp4" data-start="25.46" data-duration="5.035" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-ex3b" class="shot clip" src="assets/media/ex3b.mp4" data-start="30.495" data-duration="5.035" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-prog" class="shot clip" src="assets/media/prog.mp4" data-start="35.53" data-duration="3.19" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-u1a" class="shot clip" src="assets/media/u2_face.mp4" data-start="38.72" data-duration="1.59" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-u1b" class="shot clip" src="assets/media/u1_grip.mp4" data-start="40.31" data-duration="1.59" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-u1c" class="shot clip" src="assets/media/u3_face.mp4" data-start="41.9" data-duration="2.67" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-cta" class="shot clip" src="assets/media/cta.mp4" data-start="48.8" data-duration="4.25" data-media-start="0" data-track-index="0" muted playsinline></video>
 
       <div class="shade"></div>
 
@@ -542,37 +578,54 @@
         </div>
       </div>
 
-      <!-- ===================== EXERCISES 5.32–21.24 ===================== -->
-      <div id="ex1" class="layer clip" data-start="5.32" data-duration="5.3" data-track-index="2">
+      <!-- ===================== EXERCISES 5.32–35.53 (10 s each; rep counter drops on each rep bottom) ===================== -->
+      <div id="ex1" class="layer clip" data-start="5.32" data-duration="10.07" data-track-index="2">
         <div class="safe move">
           <div class="chip count">Senaman 1/3</div>
           <div class="h">Goblet squat</div>
-          <div class="chip target"><svg width="20" height="20"><use href="#i-target" /></svg>Peha depan · punggung</div><br />
-          <div class="cap"><b>12</b> reps × <b>3</b> set</div>
-          <div class="bar"><i></i></div>
+          <div class="chip target"><svg width="20" height="20"><use href="#i-target" /></svg>Peha depan · punggung</div>
+          <div class="row">
+            <div class="cap reps"><b>12</b> reps × <b>3</b> set</div>
+            <div class="cap rest"><svg class="sw" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="8.5" fill="none" stroke="#ffd23f" stroke-width="2.4" /><path d="M9.5 2.5h5M12 2.5v2.5" stroke="#ffd23f" stroke-width="2.4" stroke-linecap="round" /><path class="hand" d="M12 13.5V8.6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" /></svg>Rehat <b>1:00</b></div>
+          </div>
+          <div class="counter">
+            <div class="chip lbl">Reps lagi</div>
+            <div class="num"><span class="n" id="ex1-n12">12</span><span class="n" id="ex1-n11">11</span><span class="n" id="ex1-n10">10</span><span class="n" id="ex1-n9">9</span><span class="n" id="ex1-n8">8</span></div>
+          </div>
         </div>
       </div>
-      <div id="ex2" class="layer clip" data-start="10.62" data-duration="5.33" data-track-index="2">
+      <div id="ex2" class="layer clip" data-start="15.39" data-duration="10.07" data-track-index="2">
         <div class="safe move">
           <div class="chip count">Senaman 2/3</div>
           <div class="h">Forward lunges</div>
-          <div class="chip target"><svg width="20" height="20"><use href="#i-target" /></svg>Peha · punggung</div><br />
-          <div class="cap"><b>12</b> reps × <b>3</b> set</div>
-          <div class="bar"><i></i></div>
+          <div class="chip target"><svg width="20" height="20"><use href="#i-target" /></svg>Peha · punggung</div>
+          <div class="row">
+            <div class="cap reps"><b>12</b> reps × <b>3</b> set</div>
+            <div class="cap rest"><svg class="sw" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="8.5" fill="none" stroke="#ffd23f" stroke-width="2.4" /><path d="M9.5 2.5h5M12 2.5v2.5" stroke="#ffd23f" stroke-width="2.4" stroke-linecap="round" /><path class="hand" d="M12 13.5V8.6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" /></svg>Rehat <b>1:00</b></div>
+          </div>
+          <div class="counter">
+            <div class="chip lbl">Reps lagi</div>
+            <div class="num"><span class="n" id="ex2-n12">12</span><span class="n" id="ex2-n11">11</span><span class="n" id="ex2-n10">10</span><span class="n" id="ex2-n9">9</span><span class="n" id="ex2-n8">8</span></div>
+          </div>
         </div>
       </div>
-      <div id="ex3" class="layer clip" data-start="15.95" data-duration="5.29" data-track-index="2">
+      <div id="ex3" class="layer clip" data-start="25.46" data-duration="10.07" data-track-index="2">
         <div class="safe move">
           <div class="chip count">Senaman 3/3</div>
           <div class="h">Deadlift</div>
-          <div class="chip target"><svg width="20" height="20"><use href="#i-target" /></svg>Peha belakang · punggung</div><br />
-          <div class="cap"><b>12</b> reps × <b>3</b> set</div>
-          <div class="bar"><i></i></div>
+          <div class="chip target"><svg width="20" height="20"><use href="#i-target" /></svg>Peha belakang · punggung</div>
+          <div class="row">
+            <div class="cap reps"><b>12</b> reps × <b>3</b> set</div>
+            <div class="cap rest"><svg class="sw" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="8.5" fill="none" stroke="#ffd23f" stroke-width="2.4" /><path d="M9.5 2.5h5M12 2.5v2.5" stroke="#ffd23f" stroke-width="2.4" stroke-linecap="round" /><path class="hand" d="M12 13.5V8.6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" /></svg>Rehat <b>1:00</b></div>
+          </div>
+          <div class="counter">
+            <div class="chip lbl">Reps lagi</div>
+            <div class="num"><span class="n" id="ex3-n12">12</span><span class="n" id="ex3-n11">11</span><span class="n" id="ex3-n10">10</span><span class="n" id="ex3-n9">9</span><span class="n" id="ex3-n8">8</span><span class="n" id="ex3-n7">7</span></div>
+          </div>
         </div>
       </div>
-
       <!-- ===================== PROGRAM 21.24–24.43 ===================== -->
-      <div id="prog" class="layer clip" data-start="21.24" data-duration="3.19" data-track-index="2">
+      <div id="prog" class="layer clip" data-start="35.53" data-duration="3.19" data-track-index="2">
         <div class="safe center">
           <div class="chip k" id="pg-k">Setiap senaman</div>
           <div class="h" id="pg-a" style="margin-top: 14px">12 reps</div>
@@ -594,7 +647,7 @@
       </div>
 
       <!-- ===================== USP 1: bentuk bersegi 24.43–30.28 ===================== -->
-      <div id="usp1" class="layer clip" data-start="24.43" data-duration="5.85" data-track-index="2">
+      <div id="usp1" class="layer clip" data-start="38.72" data-duration="5.85" data-track-index="2">
         <div class="safe center">
           <div class="h" id="u1-t">Bentuk bersegi</div>
         </div>
@@ -628,9 +681,9 @@
           <div class="sub" id="u2-a">Ada banyak</div>
           <div class="h gold" id="u2-b">pilihan berat</div>
         </div>
-        <div class="wcard" id="wc1"><video id="v-w1" class="clip" src="assets/media/u1_blue.mp4" data-start="30.28" data-duration="4.23" data-media-start="0" data-track-index="0" muted playsinline></video></div>
-        <div class="wcard" id="wc2"><video id="v-w2" class="clip" src="assets/media/u1_pink.mp4" data-start="30.28" data-duration="4.23" data-media-start="0" data-track-index="0" muted playsinline></video></div>
-        <div class="wcard" id="wc3"><video id="v-w3" class="clip" src="assets/media/u1_green.mp4" data-start="30.28" data-duration="4.23" data-media-start="0" data-track-index="0" muted playsinline></video></div>
+        <div class="wcard" id="wc1"><video id="v-w1" class="clip" src="assets/media/u1_blue.mp4" data-start="44.57" data-duration="4.23" data-media-start="0" data-track-index="0" muted playsinline></video></div>
+        <div class="wcard" id="wc2"><video id="v-w2" class="clip" src="assets/media/u1_pink.mp4" data-start="44.57" data-duration="4.23" data-media-start="0" data-track-index="0" muted playsinline></video></div>
+        <div class="wcard" id="wc3"><video id="v-w3" class="clip" src="assets/media/u1_green.mp4" data-start="44.57" data-duration="4.23" data-media-start="0" data-track-index="0" muted playsinline></video></div>
         <div class="wl" style="left: 130px"><div class="chip" id="wl1" style="background: #5ab4f0">1KG</div></div>
         <div class="wl" style="left: 350px"><div class="chip" id="wl2" style="background: #ff8fb1">2KG</div></div>
         <div class="wl" style="left: 570px"><div class="chip" id="wl3" style="background: #8fe3b4">3KG</div></div>
@@ -645,7 +698,7 @@
       </div>
 
       <!-- ===================== CTA 34.51–38.76 ===================== -->
-      <div id="cta" class="layer clip" data-start="34.51" data-duration="4.25" data-track-index="2">
+      <div id="cta" class="layer clip" data-start="48.8" data-duration="4.25" data-track-index="2">
         <div class="safe center">
           <div class="sub" id="cta-a">Nak trim peha <span>gelebeh</span>,</div>
           <div class="h gold" id="cta-b" style="margin-top: 14px">Start</div>
@@ -677,41 +730,54 @@
       <audio id="s-pop1" src="assets/sfx/pop.wav" data-start="3.25" data-duration="0.12" data-volume="0.7" data-track-index="12"></audio>
       <audio id="s-ding1" src="assets/sfx/ding.wav" data-start="4.25" data-duration="1.0" data-volume="0.35" data-track-index="14"></audio>
 
-      <audio id="s-wh3" src="assets/sfx/whoosh.wav" data-start="5.15" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
-      <audio id="s-click3" src="assets/sfx/click.wav" data-start="5.38" data-duration="0.03" data-volume="0.7" data-track-index="12"></audio>
-      <audio id="s-wh4" src="assets/sfx/whoosh.wav" data-start="10.45" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
-      <audio id="s-click4" src="assets/sfx/click.wav" data-start="10.68" data-duration="0.03" data-volume="0.7" data-track-index="12"></audio>
-      <audio id="s-wh5" src="assets/sfx/whoosh.wav" data-start="15.78" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
-      <audio id="s-click5" src="assets/sfx/click.wav" data-start="16.01" data-duration="0.03" data-volume="0.7" data-track-index="12"></audio>
-      <audio id="s-wh6" src="assets/sfx/swoosh.wav" data-start="18.52" data-duration="0.3" data-volume="0.45" data-track-index="13"></audio>
+      <audio id="s-exw0" src="assets/sfx/whoosh.wav" data-start="5.15" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
+      <audio id="s-exc0" src="assets/sfx/click.wav" data-start="5.38" data-duration="0.03" data-volume="0.7" data-track-index="12"></audio>
+      <audio id="s-exw1" src="assets/sfx/whoosh.wav" data-start="15.22" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
+      <audio id="s-exc1" src="assets/sfx/click.wav" data-start="15.45" data-duration="0.03" data-volume="0.7" data-track-index="12"></audio>
+      <audio id="s-exw2" src="assets/sfx/whoosh.wav" data-start="25.29" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
+      <audio id="s-exc2" src="assets/sfx/click.wav" data-start="25.52" data-duration="0.03" data-volume="0.7" data-track-index="12"></audio>
+      <audio id="s-exw3b" src="assets/sfx/swoosh.wav" data-start="30.4" data-duration="0.3" data-volume="0.45" data-track-index="13"></audio>
+      <audio id="s-rep0" src="assets/sfx/pop.wav" data-start="6.42" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-rep1" src="assets/sfx/pop.wav" data-start="8.95" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-rep2" src="assets/sfx/pop.wav" data-start="11.49" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-rep3" src="assets/sfx/pop.wav" data-start="14.09" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-rep4" src="assets/sfx/pop.wav" data-start="16.62" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-rep5" src="assets/sfx/pop.wav" data-start="19.42" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-rep6" src="assets/sfx/pop.wav" data-start="22.39" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-rep7" src="assets/sfx/pop.wav" data-start="25.22" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-rep8" src="assets/sfx/pop.wav" data-start="26.76" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-rep9" src="assets/sfx/pop.wav" data-start="28.39" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-rep10" src="assets/sfx/pop.wav" data-start="30.16" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-rep11" src="assets/sfx/pop.wav" data-start="32.025" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-rep12" src="assets/sfx/pop.wav" data-start="33.825" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
 
-      <audio id="s-boom2" src="assets/sfx/boom.wav" data-start="21.24" data-duration="1.4" data-volume="0.55" data-track-index="11"></audio>
-      <audio id="s-pop2" src="assets/sfx/pop.wav" data-start="21.77" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
-      <audio id="s-riser1" src="assets/sfx/riser.wav" data-start="22.3" data-duration="1.0" data-volume="0.2" data-track-index="14"></audio>
-      <audio id="s-ding2" src="assets/sfx/ding.wav" data-start="23.36" data-duration="1.0" data-volume="0.35" data-track-index="14"></audio>
+      <audio id="s-boom2" src="assets/sfx/boom.wav" data-start="35.53" data-duration="1.4" data-volume="0.55" data-track-index="11"></audio>
+      <audio id="s-pop2" src="assets/sfx/pop.wav" data-start="36.06" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-riser1" src="assets/sfx/riser.wav" data-start="36.59" data-duration="1.0" data-volume="0.2" data-track-index="14"></audio>
+      <audio id="s-ding2" src="assets/sfx/ding.wav" data-start="37.65" data-duration="1.0" data-volume="0.35" data-track-index="14"></audio>
 
-      <audio id="s-wh7" src="assets/sfx/whoosh.wav" data-start="24.28" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
-      <audio id="s-ding3" src="assets/sfx/ding.wav" data-start="26.02" data-duration="1.0" data-volume="0.35" data-track-index="14"></audio>
-      <audio id="s-wh8" src="assets/sfx/swoosh.wav" data-start="27.55" data-duration="0.3" data-volume="0.55" data-track-index="13"></audio>
-      <audio id="s-wh9" src="assets/sfx/whoosh.wav" data-start="28.14" data-duration="0.45" data-volume="0.45" data-track-index="13"></audio>
-      <audio id="s-pop3" src="assets/sfx/pop.wav" data-start="28.95" data-duration="0.12" data-volume="0.6" data-track-index="12"></audio>
-      <audio id="s-ding4" src="assets/sfx/ding.wav" data-start="29.21" data-duration="1.0" data-volume="0.35" data-track-index="14"></audio>
+      <audio id="s-wh7" src="assets/sfx/whoosh.wav" data-start="38.57" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
+      <audio id="s-ding3" src="assets/sfx/ding.wav" data-start="40.31" data-duration="1.0" data-volume="0.35" data-track-index="14"></audio>
+      <audio id="s-wh8" src="assets/sfx/swoosh.wav" data-start="41.84" data-duration="0.3" data-volume="0.55" data-track-index="13"></audio>
+      <audio id="s-wh9" src="assets/sfx/whoosh.wav" data-start="42.43" data-duration="0.45" data-volume="0.45" data-track-index="13"></audio>
+      <audio id="s-pop3" src="assets/sfx/pop.wav" data-start="43.24" data-duration="0.12" data-volume="0.6" data-track-index="12"></audio>
+      <audio id="s-ding4" src="assets/sfx/ding.wav" data-start="43.5" data-duration="1.0" data-volume="0.35" data-track-index="14"></audio>
 
-      <audio id="s-wh10" src="assets/sfx/swoosh.wav" data-start="30.2" data-duration="0.3" data-volume="0.55" data-track-index="13"></audio>
-      <audio id="s-pop4" src="assets/sfx/pop.wav" data-start="31.33" data-duration="0.12" data-volume="0.5" data-track-index="12"></audio>
-      <audio id="s-pop5" src="assets/sfx/pop.wav" data-start="31.86" data-duration="0.12" data-volume="0.5" data-track-index="12"></audio>
-      <audio id="s-pop6" src="assets/sfx/pop.wav" data-start="32.4" data-duration="0.12" data-volume="0.5" data-track-index="12"></audio>
+      <audio id="s-wh10" src="assets/sfx/swoosh.wav" data-start="44.49" data-duration="0.3" data-volume="0.55" data-track-index="13"></audio>
+      <audio id="s-pop4" src="assets/sfx/pop.wav" data-start="45.62" data-duration="0.12" data-volume="0.5" data-track-index="12"></audio>
+      <audio id="s-pop5" src="assets/sfx/pop.wav" data-start="46.15" data-duration="0.12" data-volume="0.5" data-track-index="12"></audio>
+      <audio id="s-pop6" src="assets/sfx/pop.wav" data-start="46.69" data-duration="0.12" data-volume="0.5" data-track-index="12"></audio>
 
-      <audio id="s-boom3" src="assets/sfx/boom.wav" data-start="34.51" data-duration="1.4" data-volume="0.7" data-track-index="11"></audio>
-      <audio id="s-pop7" src="assets/sfx/pop.wav" data-start="35.02" data-duration="0.12" data-volume="0.6" data-track-index="12"></audio>
-      <audio id="s-pop8" src="assets/sfx/pop.wav" data-start="35.58" data-duration="0.12" data-volume="0.6" data-track-index="12"></audio>
-      <audio id="s-ding5" src="assets/sfx/ding.wav" data-start="36.64" data-duration="1.2" data-volume="0.45" data-track-index="14"></audio>
+      <audio id="s-boom3" src="assets/sfx/boom.wav" data-start="48.8" data-duration="1.4" data-volume="0.7" data-track-index="11"></audio>
+      <audio id="s-pop7" src="assets/sfx/pop.wav" data-start="49.31" data-duration="0.12" data-volume="0.6" data-track-index="12"></audio>
+      <audio id="s-pop8" src="assets/sfx/pop.wav" data-start="49.87" data-duration="0.12" data-volume="0.6" data-track-index="12"></audio>
+      <audio id="s-ding5" src="assets/sfx/ding.wav" data-start="50.93" data-duration="1.2" data-volume="0.45" data-track-index="14"></audio>
     </div>
 
     <script>
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
-      const D = 38.76;
+      const D = 53.05;
 
       tl.fromTo("#progress-fill", { scaleX: 0 }, { scaleX: 1, duration: D, ease: "none" }, 0);
 
@@ -754,97 +820,116 @@
       tl.fromTo("#save-st svg", { y: 0 }, { y: -14, duration: 0.265, repeat: 5, yoyo: true, ease: "sine.inOut" }, 3.72);
       tl.to("#save-st", { scale: 0.6, opacity: 0, rotation: 6, duration: 0.18, ease: "power2.in" }, 5.14);
 
-      // ---------------- EXERCISES ----------------
-      drift("#v-ex1", 5.32, 5.3);
-      drift("#v-ex2", 10.62, 5.33);
-      drift("#v-ex3a", 15.95, 2.67);
-      drift("#v-ex3b", 18.62, 2.62);
+      // ---------------- EXERCISES (10 s each) ----------------
+      drift("#v-ex1", 5.32, 10.07, 1.0, 1.08);
+      drift("#v-ex2", 15.39, 10.07, 1.0, 1.08);
+      drift("#v-ex3a", 25.46, 5.035);
+      drift("#v-ex3b", 30.495, 5.035);
       flash(5.32, 0.9);
-      flash(10.62, 0.6);
-      flash(15.95, 0.6);
-      flash(18.62, 0.4);
+      flash(15.39, 0.6);
+      flash(25.46, 0.6);
+      flash(30.495, 0.4);
+      const REPS = {
+        ex1: [6.42, 8.95, 11.49, 14.09],
+        ex2: [16.62, 19.42, 22.39, 25.22],
+        ex3: [26.76, 28.39, 30.16, 32.025, 33.825],
+      };
       [
-        ["#ex1", 5.32, 5.3],
-        ["#ex2", 10.62, 5.33],
-        ["#ex3", 15.95, 5.29],
-      ].forEach(([m, t, d]) => {
+        ["ex1", 5.32],
+        ["ex2", 15.39],
+        ["ex3", 25.46],
+      ].forEach(([id, t]) => {
+        const m = "#" + id, d = 10.07;
         tl.fromTo(m + " .count", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, ease: "back.out(2)" }, t + 0.03);
         tl.fromTo(m + " .h", { x: -700, opacity: 0, skewX: 10 }, { x: 0, opacity: 1, skewX: 0, duration: 0.35, ease: "power4.out" }, t + 0.08);
-        tl.fromTo(m + " .target", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(2.5)" }, t + 0.53);
-        tl.fromTo(m + " .cap", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, t + 1.06);
-        tl.fromTo(m + " .bar", { opacity: 0 }, { opacity: 1, duration: 0.2 }, t + 1.06);
-        tl.fromTo(m + " .bar i", { scaleX: 0 }, { scaleX: 1, duration: d - 1.3, ease: "none" }, t + 1.06);
+        tl.fromTo(m + " .target", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(2.5)" }, t + 0.4);
+        tl.fromTo(m + " .reps", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, t + 0.55);
+        tl.fromTo(m + " .rest", { x: 60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, t + 0.7);
+        tl.fromTo(m + " .rest .hand", { rotation: 0 }, { rotation: 360, duration: d - 1, ease: "none" }, t + 0.7);
+        tl.fromTo(m + " .counter", { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(2.4)" }, t + 0.85);
+        // rep counter: 12 shown first, then one step down at the bottom of every rep
+        const first = m + "-n12";
+        tl.fromTo(first, { opacity: 0 }, { opacity: 1, duration: 0.01, immediateRender: false }, t + 0.85);
+        let prev = 12;
+        REPS[id].forEach((rt) => {
+          const cur = prev - 1;
+          tl.set(m + "-n" + prev, { opacity: 0 }, rt);
+          tl.set(m + "-n" + cur, { opacity: 1 }, rt);
+          tl.fromTo(m + "-n" + cur, { scale: 1.6, y: -10 }, { scale: 1, y: 0, duration: 0.3, ease: "back.out(3)", immediateRender: false }, rt);
+          tl.fromTo(m + " .counter", { scale: 1.12 }, { scale: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, rt);
+          prev = cur;
+        });
         tl.to(m + " .move", { x: -900, duration: 0.2, ease: "power3.in" }, t + d - 0.22);
       });
 
-      // ---------------- PROGRAM (21.24–24.43) ----------------
-      flash(21.24, 0.9);
-      tl.fromTo("#prog", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 21.24);
-      tl.fromTo("#pg-k", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25 }, 21.26);
-      tl.fromTo("#pg-a", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.28, ease: "power4.out" }, 21.3);
-      tl.fromTo("#pg-b", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.28, ease: "power4.out" }, 21.77);
-      tl.fromTo("#timer", { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(2)" }, 22.3);
-      tl.fromTo("#timer-arc", { attr: { "stroke-dashoffset": 691 } }, { attr: { "stroke-dashoffset": 0 }, duration: 1.8, ease: "none" }, 22.4);
-      tl.fromTo("#pg-c", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 }, 22.5);
-      [["#s1", 22.84], ["#s2", 23.36], ["#s3", 23.9]].forEach(([s, t]) => {
+      // ---------------- PROGRAM (35.53–38.72) ----------------
+      flash(35.53, 0.9);
+      tl.fromTo("#prog", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 35.53);
+      tl.fromTo("#pg-k", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25 }, 35.55);
+      tl.fromTo("#pg-a", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.28, ease: "power4.out" }, 35.59);
+      tl.fromTo("#pg-b", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.28, ease: "power4.out" }, 36.06);
+      tl.fromTo("#timer", { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(2)" }, 36.59);
+      tl.fromTo("#timer-arc", { attr: { "stroke-dashoffset": 691 } }, { attr: { "stroke-dashoffset": 0 }, duration: 1.8, ease: "none" }, 36.69);
+      tl.fromTo("#pg-c", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 }, 36.79);
+      [["#s1", 37.13], ["#s2", 37.65], ["#s3", 38.19]].forEach(([s, t]) => {
         tl.fromTo(s, { backgroundColor: "rgba(255,255,255,0.12)", color: "#ffffff", scale: 1 }, { backgroundColor: "#ffd23f", color: "#111111", scale: 1.15, duration: 0.18, ease: "back.out(3)", immediateRender: false }, t);
         tl.to(s, { scale: 1, duration: 0.2 }, t + 0.25);
       });
-      tl.to("#prog", { opacity: 0, duration: 0.12 }, 24.31);
+      tl.to("#prog", { opacity: 0, duration: 0.12 }, 38.6);
 
-      // ---------------- USP 1: bersegi (24.43–30.28) ----------------
-      punch("#v-u1a", 24.43, 1.59, 1.2, 1.05);
-      punch("#v-u1b", 26.02, 1.59, 1.2, 1.05);
-      drift("#v-u1c", 27.61, 2.67, 1.1, 1.0);
-      flash(24.43, 0.7);
-      flash(26.02, 0.5);
-      flash(27.61, 0.5);
-      tl.fromTo("#u1-t", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power4.out" }, 24.45);
-      tl.fromTo("#octo-line", { attr: { "stroke-dashoffset": 730 } }, { attr: { "stroke-dashoffset": 0 }, duration: 1.0, ease: "power2.inOut" }, 24.55);
-      tl.fromTo("#octo", { rotation: -30, scale: 0.85 }, { rotation: 0, scale: 1, duration: 1.0, ease: "power2.out" }, 24.55);
-      bump("#octo", 25.49, 1.1);
-      tl.to("#octo", { opacity: 0, scale: 1.15, duration: 0.18 }, 25.86);
-      tl.fromTo("#ck1", { x: -700, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power4.out" }, 26.04);
-      tl.fromTo("#ck1 svg", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 26.28);
-      tl.fromTo("#roll", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 27.63);
-      tl.fromTo(["#cap1", "#cap2"], { opacity: 0 }, { opacity: 1, duration: 0.2 }, 27.8);
-      tl.fromTo("#ball", { x: 0, rotation: 0 }, { x: 640, rotation: 520, duration: 1.0, ease: "power1.in" }, 28.14);
-      tl.fromTo("#hexa", { rotation: 0 }, { keyframes: [{ rotation: 22 }, { rotation: -10 }, { rotation: 5 }, { rotation: 0 }], duration: 0.8, ease: "power2.out" }, 28.14);
-      tl.fromTo("#ball-x", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 28.95);
-      tl.fromTo("#hexa-ok", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 29.0);
-      tl.fromTo("#ck2", { x: -700, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power4.out" }, 29.21);
-      tl.fromTo("#ck2 svg", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 29.42);
-      tl.to("#usp1", { opacity: 0, duration: 0.12 }, 30.16);
+      // ---------------- USP 1: bersegi (38.72–44.57) ----------------
+      punch("#v-u1a", 38.72, 1.59, 1.2, 1.05);
+      punch("#v-u1b", 40.31, 1.59, 1.2, 1.05);
+      drift("#v-u1c", 41.9, 2.67, 1.1, 1.0);
+      flash(38.72, 0.7);
+      flash(40.31, 0.5);
+      flash(41.9, 0.5);
+      tl.fromTo("#u1-t", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power4.out" }, 38.74);
+      tl.fromTo("#octo-line", { attr: { "stroke-dashoffset": 730 } }, { attr: { "stroke-dashoffset": 0 }, duration: 1.0, ease: "power2.inOut" }, 38.84);
+      tl.fromTo("#octo", { rotation: -30, scale: 0.85 }, { rotation: 0, scale: 1, duration: 1.0, ease: "power2.out" }, 38.84);
+      bump("#octo", 39.78, 1.1);
+      tl.to("#octo", { opacity: 0, scale: 1.15, duration: 0.18 }, 40.15);
+      tl.fromTo("#ck1", { x: -700, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power4.out" }, 40.33);
+      tl.fromTo("#ck1 svg", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 40.57);
+      tl.fromTo("#roll", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 41.92);
+      tl.fromTo(["#cap1", "#cap2"], { opacity: 0 }, { opacity: 1, duration: 0.2 }, 42.09);
+      tl.fromTo("#ball", { x: 0, rotation: 0 }, { x: 640, rotation: 520, duration: 1.0, ease: "power1.in" }, 42.43);
+      tl.fromTo("#hexa", { rotation: 0 }, { keyframes: [{ rotation: 22 }, { rotation: -10 }, { rotation: 5 }, { rotation: 0 }], duration: 0.8, ease: "power2.out" }, 42.43);
+      tl.fromTo("#ball-x", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 43.24);
+      tl.fromTo("#hexa-ok", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 43.29);
+      tl.fromTo("#ck2", { x: -700, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power4.out" }, 43.5);
+      tl.fromTo("#ck2 svg", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 43.71);
+      tl.to("#usp1", { opacity: 0, duration: 0.12 }, 44.45);
 
-      // ---------------- USP 2: pilihan berat (30.28–34.51) ----------------
-      flash(30.28, 0.9);
-      tl.fromTo("#usp2", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 30.28);
-      tl.fromTo("#u2-a", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power4.out" }, 30.3);
-      tl.fromTo("#u2-b", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power4.out" }, 30.81);
+      // ---------------- USP 2: pilihan berat (44.57–48.8) ----------------
+      flash(44.57, 0.9);
+      tl.fromTo("#usp2", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 44.57);
+      tl.fromTo("#u2-a", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power4.out" }, 44.59);
+      tl.fromTo("#u2-b", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power4.out" }, 45.1);
       ["#wc1", "#wc2", "#wc3"].forEach((c, i) => {
-        tl.fromTo(c, { y: 700, rotation: -8 + i * 8 }, { y: 0, rotation: 0, duration: 0.42, ease: "back.out(1.6)" }, 30.9 + i * 0.2);
+        tl.fromTo(c, { y: 700, rotation: -8 + i * 8 }, { y: 0, rotation: 0, duration: 0.42, ease: "back.out(1.6)" }, 45.19 + i * 0.2);
       });
-      [["#wl1", 31.33], ["#wl2", 31.86], ["#wl3", 32.4]].forEach(([l, t], i) => {
+      [["#wl1", 45.62], ["#wl2", 46.15], ["#wl3", 46.69]].forEach(([l, t], i) => {
         tl.fromTo(l, { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, t);
         bump(["#wc1", "#wc2", "#wc3"][i], t, 1.08);
       });
-      tl.fromTo("#level", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3 }, 31.33);
-      tl.fromTo("#lv-dot", { x: 0 }, { x: 640, duration: 1.6, ease: "power1.inOut" }, 31.4);
-      tl.fromTo("#u2-c", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 32.93);
-      tl.to("#usp2", { opacity: 0, duration: 0.12 }, 34.39);
+      tl.fromTo("#level", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3 }, 45.62);
+      tl.fromTo("#lv-dot", { x: 0 }, { x: 640, duration: 1.6, ease: "power1.inOut" }, 45.69);
+      tl.fromTo("#u2-c", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 47.22);
+      tl.to("#usp2", { opacity: 0, duration: 0.12 }, 48.68);
 
-      // ---------------- CTA (34.51–38.76) ----------------
-      drift("#v-cta", 34.51, 4.25, 1.15, 1.0);
-      flash(34.51, 1);
-      tl.fromTo("#cta", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 34.51);
-      tl.fromTo("#cta-a", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power4.out" }, 34.53);
-      tl.fromTo("#cta-b", { scale: 2.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "power4.in" }, 34.78);
-      tl.fromTo("#cta-c", { scale: 2.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "power4.in" }, 35.32);
-      tl.fromTo("#cta-d", { scale: 2.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "power4.in" }, 35.85);
-      tl.fromTo("#cta .safe", { x: 0 }, { keyframes: [{ x: -12 }, { x: 10 }, { x: -6 }, { x: 0 }], duration: 0.25, ease: "none" }, 36.11);
-      [36.64, 37.18, 37.7, 38.23].forEach((t) => bump("#cta-d", t, 1.08));
-      tl.fromTo("#save-st2", { scale: 0, rotation: -14 }, { scale: 0.82, rotation: -3, duration: 0.4, ease: "back.out(2.2)" }, 36.64);
-      [37.18, 37.7, 38.23].forEach((t) => tl.fromTo("#save-st2", { scale: 0.88 }, { scale: 0.82, duration: 0.25, ease: "power2.out", immediateRender: false }, t));
+      // ---------------- CTA (48.8–53.05) ----------------
+      drift("#v-cta", 48.8, 4.25, 1.15, 1.0);
+      flash(48.8, 1);
+      tl.fromTo("#cta", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 48.8);
+      tl.fromTo("#cta-a", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power4.out" }, 48.82);
+      tl.fromTo("#cta-b", { scale: 2.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "power4.in" }, 49.07);
+      tl.fromTo("#cta-c", { scale: 2.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "power4.in" }, 49.61);
+      tl.fromTo("#cta-d", { scale: 2.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "power4.in" }, 50.14);
+      tl.fromTo("#cta .safe", { x: 0 }, { keyframes: [{ x: -12 }, { x: 10 }, { x: -6 }, { x: 0 }], duration: 0.25, ease: "none" }, 50.4);
+      [50.93, 51.47, 51.99, 52.52].forEach((t) => bump("#cta-d", t, 1.08));
+      tl.fromTo("#save-st2", { scale: 0, rotation: -14 }, { scale: 0.82, rotation: -3, duration: 0.4, ease: "back.out(2.2)" }, 50.93);
+      [51.47, 51.99, 52.52].forEach((t) => tl.fromTo("#save-st2", { scale: 0.88 }, { scale: 0.82, duration: 0.25, ease: "power2.out", immediateRender: false }, t));
 
       window.__timelines["main"] = tl;
       tl.seek(0);
