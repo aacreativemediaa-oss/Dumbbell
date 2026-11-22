@@ -517,7 +517,7 @@
       <div class="shade"></div>
 
       <!-- ===================== HOOK 0–3.2 ===================== -->
-      <svg id="ring" class="clip" data-start="0" data-duration="1.07" data-track-index="3" style="left: 250px; top: 1360px" width="480" height="300" viewBox="-240 -150 480 300">
+      <svg id="ring" style="left: 250px; top: 1360px" width="480" height="300" viewBox="-240 -150 480 300">
         <ellipse id="ring-e" rx="225" ry="135" fill="none" stroke="#ff8fb1" stroke-width="10" stroke-dasharray="1150" stroke-dashoffset="1150" stroke-linecap="round" />
       </svg>
       <div id="hook" class="layer clip" data-start="0" data-duration="3.2" data-track-index="2">
@@ -732,6 +732,7 @@
       punch("#v-h3", 2.12, 1.08, 1.25, 1.05);
       flash(1.07);
       flash(2.12);
+      tl.fromTo("#ring", { opacity: 1 }, { opacity: 0, duration: 0.06, ease: "none", immediateRender: false }, 1.01);
       tl.fromTo("#ring-e", { attr: { "stroke-dashoffset": 1150 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.45, ease: "power2.out" }, 0.1);
       tl.fromTo("#h-l1", { scale: 1.4 }, { scale: 1, duration: 0.3, ease: "power4.out", immediateRender: false }, 0.03);
       tl.fromTo("#gelebeh", { skewX: 0, scaleY: 1 }, { skewX: -9, scaleY: 0.92, duration: 0.11, repeat: 25, yoyo: true, ease: "sine.inOut" }, 0.3);
