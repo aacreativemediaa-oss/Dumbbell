@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Anton";
+        src: url("assets/fonts/anton.woff2") format("woff2");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Montserrat";
+        src: url("assets/fonts/montserrat.woff2") format("woff2");
+        font-weight: 100 900;
+      }
+      /* Typography scale (repo CLAUDE.md): headline 100 · sub-headline/save sticker 47 · caption 40 · chip/label 19 */
+      :root {
+        --ground: #0d0f12;
+        --ink: #ffffff;
+        --gold: #ffd23f;
+        --gold-deep: #b38a00;
+        --pink: #ff8fb1;
+        --blue: #5ab4f0;
+        --mint: #8fe3b4;
+        --green: #22c55e;
+        --fs-headline: 100px;
+        --fs-sub: 47px;
+        --fs-caption: 40px;
+        --fs-chip: 19px;
+        --font-display: "Anton", sans-serif;
+        --font-body: "Montserrat", sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ground);
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        font-family: var(--font-body);
+        color: var(--ink);
+      }
+
+      /* ---------- type roles ---------- */
+      .h {
+        font-family: var(--font-display);
+        font-size: var(--fs-headline);
+        text-transform: uppercase;
+        line-height: 1;
+        letter-spacing: 0.01em;
+        -webkit-text-stroke: 3px #000;
+        paint-order: stroke fill;
+        text-shadow:
+          0 6px 0 rgba(0, 0, 0, 0.55),
+          0 0 30px rgba(0, 0, 0, 0.45);
+      }
+      .sub {
+        font-family: var(--font-body);
+        font-size: var(--fs-sub);
+        font-weight: 900;
+        line-height: 1.15;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+      }
+      .cap {
+        font-family: var(--font-body);
+        font-size: var(--fs-caption);
+        font-weight: 800;
+        line-height: 1.25;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-body);
+        font-size: var(--fs-chip);
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 9px 16px;
+        border-radius: 999px;
+        line-height: 1;
+      }
+
+      /* ---------- footage ---------- */
+      .shot {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+        z-index: 1;
+        transform-origin: 50% 45%;
+      }
+      .shade {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        background:
+          linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 36%),
+          linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 30%);
+      }
+      #flash {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        background: #fff;
+        opacity: 0;
+      }
+      #progress {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 12px;
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.18);
+      }
+      #progress-fill {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--pink), var(--gold));
+        transform-origin: 0 50%;
+        transform: scaleX(0);
+      }
+      .layer {
+        position: absolute;
+        inset: 0;
+        z-index: 20;
+      }
+      .safe {
+        position: absolute;
+        left: 120px;
+        top: 300px;
+        width: 768px;
+      }
+      .center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      /* ---------- hook ---------- */
+      #gelebeh {
+        display: inline-block;
+        color: var(--blue);
+        transform-origin: 50% 100%;
+      }
+      #hook .sub {
+        margin-top: 26px;
+        background: rgba(0, 0, 0, 0.78);
+        border: 4px solid var(--gold);
+        border-radius: 26px;
+        padding: 16px 28px;
+        max-width: 700px;
+      }
+      #hook .sub b {
+        color: var(--gold);
+      }
+      #hook .previews {
+        margin-top: 26px;
+        display: flex;
+        gap: 12px;
+      }
+      #hook .previews .chip {
+        white-space: nowrap;
+        background: rgba(0, 0, 0, 0.7);
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        color: #fff;
+      }
+      #ring {
+        position: absolute;
+        z-index: 19;
+        overflow: visible;
+      }
+
+      /* ---------- save sticker ---------- */
+      #save-wrap {
+        top: 520px;
+      }
+      .sticker {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        background: #fff;
+        color: #111;
+        border: 6px solid #111;
+        border-radius: 30px;
+        padding: 26px 34px;
+        box-shadow:
+          10px 12px 0 var(--gold),
+          0 30px 60px rgba(0, 0, 0, 0.5);
+        max-width: 700px;
+      }
+      .sticker svg {
+        flex: none;
+        width: 92px;
+        height: 92px;
+      }
+      #save-mini {
+        position: absolute;
+        left: 130px;
+        top: 1040px;
+      }
+      #save-mini .sticker {
+        transform-origin: 0 50%;
+      }
+
+      /* ---------- exercise cards ---------- */
+      .move .chip.count {
+        background: var(--gold);
+        color: #111;
+      }
+      .move .h {
+        margin-top: 16px;
+      }
+      .move .chip.target {
+        margin-top: 18px;
+        background: var(--pink);
+        color: #1a0a10;
+      }
+      .move .cap {
+        margin-top: 16px;
+        display: inline-block;
+        background: rgba(0, 0, 0, 0.72);
+        border-radius: 16px;
+        padding: 12px 24px;
+      }
+      .move .cap b {
+        color: var(--gold);
+      }
+      .move .bar {
+        margin-top: 18px;
+        width: 520px;
+        height: 12px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.25);
+        overflow: hidden;
+      }
+      .move .bar i {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: var(--gold);
+        transform-origin: 0 50%;
+        transform: scaleX(0);
+      }
+
+      /* ---------- program card ---------- */
+      #prog {
+        background: rgba(8, 9, 12, 0.78);
+      }
+      #prog .chip.k {
+        background: var(--gold);
+        color: #111;
+      }
+      #prog .gold {
+        color: var(--gold);
+      }
+      #timer {
+        margin-top: 26px;
+        width: 250px;
+        height: 250px;
+        position: relative;
+      }
+      #timer svg {
+        position: absolute;
+        inset: 0;
+        overflow: visible;
+      }
+      #timer .sub {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #prog .cap {
+        margin-top: 18px;
+      }
+      #prog .sets {
+        margin-top: 18px;
+        display: flex;
+        gap: 12px;
+      }
+      #prog .sets .chip {
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+      }
+
+      /* ---------- USP 1: bersegi ---------- */
+      #octo {
+        position: absolute;
+        left: 214px;
+        top: 560px;
+        width: 580px;
+        height: 580px;
+        overflow: visible;
+      }
+      .checks {
+        position: absolute;
+        left: 130px;
+        top: 920px;
+        width: 650px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .check {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        background: rgba(10, 10, 12, 0.85);
+        border-radius: 22px;
+        padding: 14px 24px;
+        border-left: 10px solid var(--gold);
+      }
+      .check svg {
+        flex: none;
+        width: 52px;
+        height: 52px;
+      }
+      #roll {
+        position: absolute;
+        left: 130px;
+        top: 460px;
+        width: 650px;
+        height: 330px;
+        border-radius: 30px;
+        background: rgba(10, 10, 12, 0.85);
+        overflow: hidden;
+      }
+      #roll .ground {
+        position: absolute;
+        left: 30px;
+        right: 30px;
+        top: 240px;
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.6);
+      }
+      #roll svg {
+        position: absolute;
+        overflow: visible;
+      }
+      #roll .chip {
+        position: absolute;
+        top: 266px;
+      }
+
+      /* ---------- USP 2: weights ---------- */
+      #usp2 {
+        z-index: 15;
+        background:
+          repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.035) 0 28px, rgba(255, 255, 255, 0) 28px 56px),
+          radial-gradient(120% 70% at 50% 40%, #2a2a31 0%, #0d0f12 70%);
+      }
+      #usp2 .gold {
+        color: var(--gold);
+      }
+      .wcard {
+        position: absolute;
+        top: 520px;
+        width: 200px;
+        height: 400px;
+        border-radius: 28px;
+        overflow: hidden;
+        border: 6px solid #fff;
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+        background: #000;
+      }
+      .wcard video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      #wc1 {
+        left: 130px;
+        border-color: var(--blue);
+      }
+      #wc2 {
+        left: 350px;
+        border-color: var(--pink);
+      }
+      #wc3 {
+        left: 570px;
+        border-color: var(--mint);
+      }
+      .wl {
+        position: absolute;
+        top: 936px;
+        width: 200px;
+        display: flex;
+        justify-content: center;
+      }
+      .wl .chip {
+        color: #111;
+      }
+      #level {
+        position: absolute;
+        left: 130px;
+        top: 1000px;
+        width: 640px;
+      }
+      #level .track {
+        position: relative;
+        height: 16px;
+        border-radius: 8px;
+        background: linear-gradient(90deg, var(--blue), var(--pink), var(--mint));
+      }
+      #level .dot {
+        position: absolute;
+        top: -10px;
+        left: 0;
+        width: 36px;
+        height: 36px;
+        margin-left: -18px;
+        border-radius: 50%;
+        background: #fff;
+        border: 6px solid var(--gold);
+      }
+      #level .ends {
+        margin-top: 16px;
+        display: flex;
+        justify-content: space-between;
+      }
+      #level .ends .chip {
+        background: rgba(255, 255, 255, 0.14);
+        color: #fff;
+      }
+      #usp2 .cap {
+        position: absolute;
+        left: 130px;
+        top: 1090px;
+        width: 640px;
+        text-align: center;
+      }
+
+      /* ---------- CTA ---------- */
+      #cta {
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.35) 55%, rgba(0, 0, 0, 0.78) 100%);
+      }
+      #cta .sub {
+        color: #fff;
+      }
+      #cta .sub span {
+        color: var(--blue);
+      }
+      #cta .sticker .sub {
+        color: #111;
+      }
+      #cta .gold {
+        color: var(--gold);
+      }
+      #cta .h + .h {
+        margin-top: 4px;
+      }
+      #cta .arrow {
+        margin-top: 12px;
+        width: 80px;
+        height: 80px;
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute">
+      <defs>
+        <symbol id="i-check" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="11" fill="#22c55e" />
+          <path d="M6.5 12.5l3.6 3.6 7.4-8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </symbol>
+        <symbol id="i-x" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="11" fill="#ff4d4d" />
+          <path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="3" stroke-linecap="round" />
+        </symbol>
+        <symbol id="i-save" viewBox="0 0 24 24">
+          <rect x="1" y="1" width="22" height="22" rx="6" fill="#ffd23f" />
+          <path d="M7 5.5h10a1 1 0 0 1 1 1v12.2a.6.6 0 0 1-.95.5L12 15.6l-5.05 3.6A.6.6 0 0 1 6 18.7V6.5a1 1 0 0 1 1-1z" fill="#111" />
+        </symbol>
+        <symbol id="i-target" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" fill="none" stroke="#1a0a10" stroke-width="3" />
+          <circle cx="12" cy="12" r="4" fill="#1a0a10" />
+        </symbol>
+      </defs>
+    </svg>
+
+    <div id="root" data-composition-id="main" data-start="0" data-duration="38.76" data-width="1080" data-height="1920">
+      <!-- ===================== FOOTAGE (every cut on a beat of Sound 1, 113 BPM) ===================== -->
+      <video id="v-h1" class="shot clip" src="assets/media/h1.mp4" data-start="0" data-duration="1.07" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-h2" class="shot clip" src="assets/media/h2.mp4" data-start="1.07" data-duration="1.05" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-h3" class="shot clip" src="assets/media/h3.mp4" data-start="2.12" data-duration="1.08" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-save" class="shot clip" src="assets/media/save.mp4" data-start="3.2" data-duration="2.12" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-ex1" class="shot clip" src="assets/media/ex1.mp4" data-start="5.32" data-duration="5.3" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-ex2" class="shot clip" src="assets/media/ex2.mp4" data-start="10.62" data-duration="5.33" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-ex3a" class="shot clip" src="assets/media/ex3a.mp4" data-start="15.95" data-duration="2.67" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-ex3b" class="shot clip" src="assets/media/ex3b.mp4" data-start="18.62" data-duration="2.62" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-prog" class="shot clip" src="assets/media/prog.mp4" data-start="21.24" data-duration="3.19" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-u1a" class="shot clip" src="assets/media/u2_face.mp4" data-start="24.43" data-duration="1.59" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-u1b" class="shot clip" src="assets/media/u1_grip.mp4" data-start="26.02" data-duration="1.59" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-u1c" class="shot clip" src="assets/media/u3_face.mp4" data-start="27.61" data-duration="2.67" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <video id="v-cta" class="shot clip" src="assets/media/cta.mp4" data-start="34.51" data-duration="4.25" data-media-start="0" data-track-index="0" muted playsinline></video>
+
+      <div class="shade"></div>
+
+      <!-- ===================== HOOK 0–3.2 ===================== -->
+      <svg id="ring" class="clip" data-start="0" data-duration="1.07" data-track-index="3" style="left: 250px; top: 1360px" width="480" height="300" viewBox="-240 -150 480 300">
+        <ellipse id="ring-e" rx="225" ry="135" fill="none" stroke="#ff8fb1" stroke-width="10" stroke-dasharray="1150" stroke-dashoffset="1150" stroke-linecap="round" />
+      </svg>
+      <div id="hook" class="layer clip" data-start="0" data-duration="3.2" data-track-index="2">
+        <div class="safe center">
+          <div class="h" id="h-l1">Peha <span id="gelebeh">gelebeh</span>?</div>
+          <div class="sub" id="h-sub">Buat <b>3 senaman dumbbell</b> ni</div>
+          <div class="previews">
+            <div class="chip" id="p1">1 · Goblet squat</div>
+            <div class="chip" id="p2">2 · Forward lunges</div>
+            <div class="chip" id="p3">3 · Deadlift</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== SAVE STICKER 3.2–5.32 ===================== -->
+      <div id="save" class="layer clip" data-start="3.2" data-duration="2.12" data-track-index="2">
+        <div class="safe center" id="save-wrap">
+          <div class="sticker" id="save-st">
+            <svg><use href="#i-save" /></svg>
+            <div class="sub">Save sebelum video hilang!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== EXERCISES 5.32–21.24 ===================== -->
+      <div id="ex1" class="layer clip" data-start="5.32" data-duration="5.3" data-track-index="2">
+        <div class="safe move">
+          <div class="chip count">Senaman 1/3</div>
+          <div class="h">Goblet squat</div>
+          <div class="chip target"><svg width="20" height="20"><use href="#i-target" /></svg>Peha depan · punggung</div><br />
+          <div class="cap"><b>12</b> reps × <b>3</b> set</div>
+          <div class="bar"><i></i></div>
+        </div>
+      </div>
+      <div id="ex2" class="layer clip" data-start="10.62" data-duration="5.33" data-track-index="2">
+        <div class="safe move">
+          <div class="chip count">Senaman 2/3</div>
+          <div class="h">Forward lunges</div>
+          <div class="chip target"><svg width="20" height="20"><use href="#i-target" /></svg>Peha · punggung</div><br />
+          <div class="cap"><b>12</b> reps × <b>3</b> set</div>
+          <div class="bar"><i></i></div>
+        </div>
+      </div>
+      <div id="ex3" class="layer clip" data-start="15.95" data-duration="5.29" data-track-index="2">
+        <div class="safe move">
+          <div class="chip count">Senaman 3/3</div>
+          <div class="h">Deadlift</div>
+          <div class="chip target"><svg width="20" height="20"><use href="#i-target" /></svg>Peha belakang · punggung</div><br />
+          <div class="cap"><b>12</b> reps × <b>3</b> set</div>
+          <div class="bar"><i></i></div>
+        </div>
+      </div>
+
+      <!-- ===================== PROGRAM 21.24–24.43 ===================== -->
+      <div id="prog" class="layer clip" data-start="21.24" data-duration="3.19" data-track-index="2">
+        <div class="safe center">
+          <div class="chip k" id="pg-k">Setiap senaman</div>
+          <div class="h" id="pg-a" style="margin-top: 14px">12 reps</div>
+          <div class="h gold" id="pg-b">× 3 set</div>
+          <div id="timer">
+            <svg viewBox="-125 -125 250 250">
+              <circle r="110" fill="rgba(0,0,0,0.5)" stroke="rgba(255,255,255,0.2)" stroke-width="14" />
+              <circle id="timer-arc" r="110" fill="none" stroke="#ffd23f" stroke-width="14" stroke-linecap="round" stroke-dasharray="691" stroke-dashoffset="691" transform="rotate(-90)" />
+            </svg>
+            <div class="sub" id="timer-t">1:00</div>
+          </div>
+          <div class="cap" id="pg-c">Rehat 1 minit setiap set</div>
+          <div class="sets">
+            <div class="chip" id="s1">Set 1</div>
+            <div class="chip" id="s2">Set 2</div>
+            <div class="chip" id="s3">Set 3</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== USP 1: bentuk bersegi 24.43–30.28 ===================== -->
+      <div id="usp1" class="layer clip" data-start="24.43" data-duration="5.85" data-track-index="2">
+        <div class="safe center">
+          <div class="h" id="u1-t">Bentuk bersegi</div>
+        </div>
+        <svg id="octo" viewBox="-110 -110 220 220">
+          <polygon id="octo-line" points="45.5,-110 110,-45.5 110,45.5 45.5,110 -45.5,110 -110,45.5 -110,-45.5 -45.5,-110" fill="none" stroke="#ffd23f" stroke-width="7" stroke-linejoin="round" stroke-dasharray="730" stroke-dashoffset="730" />
+        </svg>
+        <div id="roll">
+          <div class="ground"></div>
+          <svg id="ball" style="left: 90px; top: 100px" width="140" height="140" viewBox="-70 -70 140 140">
+            <circle r="66" fill="#ff8fb1" stroke="#fff" stroke-width="6" />
+            <path d="M-40 0 H40" stroke="#fff" stroke-width="6" stroke-linecap="round" />
+          </svg>
+          <svg id="ball-x" style="left: 128px; top: 22px" width="64" height="64"><use href="#i-x" /></svg>
+          <svg id="hexa" style="left: 410px; top: 100px" width="140" height="140" viewBox="-70 -70 140 140">
+            <polygon points="27,-66 66,-27 66,27 27,66 -27,66 -66,27 -66,-27 -27,-66" fill="#5ab4f0" stroke="#fff" stroke-width="6" stroke-linejoin="round" />
+            <path d="M-40 0 H40" stroke="#fff" stroke-width="6" stroke-linecap="round" />
+          </svg>
+          <svg id="hexa-ok" style="left: 448px; top: 22px" width="64" height="64"><use href="#i-check" /></svg>
+          <div class="chip" style="left: 70px; background: #ff8fb1; color: #1a0a10" id="cap1">Bulat = bergolek</div>
+          <div class="chip" style="left: 390px; background: #8fe3b4; color: #0b2a1a" id="cap2">Bersegi = stabil</div>
+        </div>
+        <div class="checks">
+          <div class="check cap" id="ck1"><svg><use href="#i-check" /></svg>Senang pegang</div>
+          <div class="check cap" id="ck2"><svg><use href="#i-check" /></svg>Tak mudah bergolek</div>
+        </div>
+      </div>
+
+      <!-- ===================== USP 2: pilihan berat 30.28–34.51 ===================== -->
+      <div id="usp2" class="layer">
+        <div class="safe center">
+          <div class="sub" id="u2-a">Ada banyak</div>
+          <div class="h gold" id="u2-b">pilihan berat</div>
+        </div>
+        <div class="wcard" id="wc1"><video id="v-w1" class="clip" src="assets/media/u1_blue.mp4" data-start="30.28" data-duration="4.23" data-media-start="0" data-track-index="0" muted playsinline></video></div>
+        <div class="wcard" id="wc2"><video id="v-w2" class="clip" src="assets/media/u1_pink.mp4" data-start="30.28" data-duration="4.23" data-media-start="0" data-track-index="0" muted playsinline></video></div>
+        <div class="wcard" id="wc3"><video id="v-w3" class="clip" src="assets/media/u1_green.mp4" data-start="30.28" data-duration="4.23" data-media-start="0" data-track-index="0" muted playsinline></video></div>
+        <div class="wl" style="left: 130px"><div class="chip" id="wl1" style="background: #5ab4f0">1KG</div></div>
+        <div class="wl" style="left: 350px"><div class="chip" id="wl2" style="background: #ff8fb1">2KG</div></div>
+        <div class="wl" style="left: 570px"><div class="chip" id="wl3" style="background: #8fe3b4">3KG</div></div>
+        <div id="level">
+          <div class="track"><div class="dot" id="lv-dot"></div></div>
+          <div class="ends">
+            <div class="chip" id="lv-a">Beginner</div>
+            <div class="chip" id="lv-b">Professional</div>
+          </div>
+        </div>
+        <div class="cap" id="u2-c">Sesuai untuk beginners hingga professional</div>
+      </div>
+
+      <!-- ===================== CTA 34.51–38.76 ===================== -->
+      <div id="cta" class="layer clip" data-start="34.51" data-duration="4.25" data-track-index="2">
+        <div class="safe center">
+          <div class="sub" id="cta-a">Nak trim peha <span>gelebeh</span>,</div>
+          <div class="h gold" id="cta-b" style="margin-top: 14px">Start</div>
+          <div class="h" id="cta-c">dumbbell workout</div>
+          <div class="h gold" id="cta-d">sekarang!</div>
+        </div>
+        <div id="save-mini">
+          <div class="sticker" id="save-st2">
+            <svg><use href="#i-save" /></svg>
+            <div class="sub">Save sebelum video hilang!</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="progress"><div id="progress-fill"></div></div>
+      <div id="flash"></div>
+
+      <!-- ===================== AUDIO ===================== -->
+      <!-- Sound 1 (from the Drive folder), trimmed to start on the 17.015 s downbeat -->
+      <audio id="a-music" src="assets/sfx/music.wav" data-start="0" data-duration="38.76" data-media-start="0" data-volume="0.85" data-track-index="10"></audio>
+
+      <audio id="s-boom0" src="assets/sfx/boom.wav" data-start="0" data-duration="1.4" data-volume="0.6" data-track-index="11"></audio>
+      <audio id="s-pop0" src="assets/sfx/pop.wav" data-start="0.54" data-duration="0.12" data-volume="0.6" data-track-index="12"></audio>
+      <audio id="s-wh1" src="assets/sfx/whoosh.wav" data-start="0.9" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
+      <audio id="s-click1" src="assets/sfx/click.wav" data-start="1.07" data-duration="0.03" data-volume="0.7" data-track-index="12"></audio>
+      <audio id="s-wh2" src="assets/sfx/whoosh.wav" data-start="1.95" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
+      <audio id="s-click2" src="assets/sfx/click.wav" data-start="2.12" data-duration="0.03" data-volume="0.7" data-track-index="12"></audio>
+
+      <audio id="s-boom1" src="assets/sfx/boom.wav" data-start="3.2" data-duration="1.4" data-volume="0.6" data-track-index="11"></audio>
+      <audio id="s-pop1" src="assets/sfx/pop.wav" data-start="3.25" data-duration="0.12" data-volume="0.7" data-track-index="12"></audio>
+      <audio id="s-ding1" src="assets/sfx/ding.wav" data-start="4.25" data-duration="1.0" data-volume="0.35" data-track-index="14"></audio>
+
+      <audio id="s-wh3" src="assets/sfx/whoosh.wav" data-start="5.15" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
+      <audio id="s-click3" src="assets/sfx/click.wav" data-start="5.38" data-duration="0.03" data-volume="0.7" data-track-index="12"></audio>
+      <audio id="s-wh4" src="assets/sfx/whoosh.wav" data-start="10.45" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
+      <audio id="s-click4" src="assets/sfx/click.wav" data-start="10.68" data-duration="0.03" data-volume="0.7" data-track-index="12"></audio>
+      <audio id="s-wh5" src="assets/sfx/whoosh.wav" data-start="15.78" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
+      <audio id="s-click5" src="assets/sfx/click.wav" data-start="16.01" data-duration="0.03" data-volume="0.7" data-track-index="12"></audio>
+      <audio id="s-wh6" src="assets/sfx/swoosh.wav" data-start="18.52" data-duration="0.3" data-volume="0.45" data-track-index="13"></audio>
+
+      <audio id="s-boom2" src="assets/sfx/boom.wav" data-start="21.24" data-duration="1.4" data-volume="0.55" data-track-index="11"></audio>
+      <audio id="s-pop2" src="assets/sfx/pop.wav" data-start="21.77" data-duration="0.12" data-volume="0.55" data-track-index="12"></audio>
+      <audio id="s-riser1" src="assets/sfx/riser.wav" data-start="22.3" data-duration="1.0" data-volume="0.2" data-track-index="14"></audio>
+      <audio id="s-ding2" src="assets/sfx/ding.wav" data-start="23.36" data-duration="1.0" data-volume="0.35" data-track-index="14"></audio>
+
+      <audio id="s-wh7" src="assets/sfx/whoosh.wav" data-start="24.28" data-duration="0.45" data-volume="0.5" data-track-index="13"></audio>
+      <audio id="s-ding3" src="assets/sfx/ding.wav" data-start="26.02" data-duration="1.0" data-volume="0.35" data-track-index="14"></audio>
+      <audio id="s-wh8" src="assets/sfx/swoosh.wav" data-start="27.55" data-duration="0.3" data-volume="0.55" data-track-index="13"></audio>
+      <audio id="s-wh9" src="assets/sfx/whoosh.wav" data-start="28.14" data-duration="0.45" data-volume="0.45" data-track-index="13"></audio>
+      <audio id="s-pop3" src="assets/sfx/pop.wav" data-start="28.95" data-duration="0.12" data-volume="0.6" data-track-index="12"></audio>
+      <audio id="s-ding4" src="assets/sfx/ding.wav" data-start="29.21" data-duration="1.0" data-volume="0.35" data-track-index="14"></audio>
+
+      <audio id="s-wh10" src="assets/sfx/swoosh.wav" data-start="30.2" data-duration="0.3" data-volume="0.55" data-track-index="13"></audio>
+      <audio id="s-pop4" src="assets/sfx/pop.wav" data-start="31.33" data-duration="0.12" data-volume="0.5" data-track-index="12"></audio>
+      <audio id="s-pop5" src="assets/sfx/pop.wav" data-start="31.86" data-duration="0.12" data-volume="0.5" data-track-index="12"></audio>
+      <audio id="s-pop6" src="assets/sfx/pop.wav" data-start="32.4" data-duration="0.12" data-volume="0.5" data-track-index="12"></audio>
+
+      <audio id="s-boom3" src="assets/sfx/boom.wav" data-start="34.51" data-duration="1.4" data-volume="0.7" data-track-index="11"></audio>
+      <audio id="s-pop7" src="assets/sfx/pop.wav" data-start="35.02" data-duration="0.12" data-volume="0.6" data-track-index="12"></audio>
+      <audio id="s-pop8" src="assets/sfx/pop.wav" data-start="35.58" data-duration="0.12" data-volume="0.6" data-track-index="12"></audio>
+      <audio id="s-ding5" src="assets/sfx/ding.wav" data-start="36.64" data-duration="1.2" data-volume="0.45" data-track-index="14"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const D = 38.76;
+
+      tl.fromTo("#progress-fill", { scaleX: 0 }, { scaleX: 1, duration: D, ease: "none" }, 0);
+
+      const flash = (t, peak = 0.8) =>
+        tl.fromTo("#flash", { opacity: peak }, { opacity: 0, duration: 0.16, ease: "power2.out", immediateRender: false }, t);
+      const punch = (sel, t, dur, from = 1.18, to = 1.03) =>
+        tl.fromTo(sel, { scale: from }, { scale: to, duration: dur, ease: "power2.out", immediateRender: false }, t);
+      const drift = (sel, t, dur, from = 1.0, to = 1.07) =>
+        tl.fromTo(sel, { scale: from }, { scale: to, duration: dur, ease: "none", immediateRender: false }, t);
+      const bump = (sel, t, amt = 1.06) =>
+        tl.fromTo(sel, { scale: amt }, { scale: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, t);
+      const lit = (sel, t) =>
+        tl.fromTo(sel, { backgroundColor: "rgba(0,0,0,0.7)", color: "#ffffff", scale: 1 }, { backgroundColor: "#ffd23f", color: "#111111", scale: 1.12, duration: 0.18, ease: "back.out(3)", immediateRender: false }, t);
+
+      // ---------------- HOOK (0–3.2) ----------------
+      punch("#v-h1", 0, 1.07, 1.3, 1.05);
+      punch("#v-h2", 1.07, 1.05, 1.25, 1.05);
+      punch("#v-h3", 2.12, 1.08, 1.25, 1.05);
+      flash(1.07);
+      flash(2.12);
+      tl.fromTo("#ring-e", { attr: { "stroke-dashoffset": 1150 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.45, ease: "power2.out" }, 0.1);
+      tl.fromTo("#h-l1", { scale: 1.4 }, { scale: 1, duration: 0.3, ease: "power4.out", immediateRender: false }, 0.03);
+      tl.fromTo("#gelebeh", { skewX: 0, scaleY: 1 }, { skewX: -9, scaleY: 0.92, duration: 0.11, repeat: 25, yoyo: true, ease: "sine.inOut" }, 0.3);
+      tl.fromTo("#hook .safe", { x: 0 }, { keyframes: [{ x: -14 }, { x: 12 }, { x: -8 }, { x: 5 }, { x: 0 }], duration: 0.3, ease: "none" }, 0.05);
+      tl.fromTo("#h-sub", { scale: 1.25 }, { scale: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 0.54);
+      lit("#p1", 0.02);
+      tl.to("#p1", { scale: 1, duration: 0.2 }, 0.3);
+      lit("#p2", 1.07);
+      tl.to("#p2", { scale: 1, duration: 0.2 }, 1.35);
+      lit("#p3", 2.12);
+      tl.to("#p3", { scale: 1, duration: 0.2 }, 2.4);
+      tl.to("#hook .safe", { y: -50, opacity: 0, duration: 0.16, ease: "power2.in" }, 3.04);
+
+      // ---------------- SAVE STICKER (3.2–5.32) ----------------
+      drift("#v-save", 3.2, 2.12, 1.12, 1.0);
+      flash(3.2, 0.9);
+      tl.fromTo("#save-st", { scale: 0, rotation: -18 }, { scale: 1, rotation: -4, duration: 0.45, ease: "back.out(2.2)" }, 3.22);
+      [3.72, 4.25, 4.8].forEach((t) => bump("#save-st", t, 1.08));
+      tl.fromTo("#save-st svg", { y: 0 }, { y: -14, duration: 0.265, repeat: 5, yoyo: true, ease: "sine.inOut" }, 3.72);
+      tl.to("#save-st", { scale: 0.6, opacity: 0, rotation: 6, duration: 0.18, ease: "power2.in" }, 5.14);
+
+      // ---------------- EXERCISES ----------------
+      drift("#v-ex1", 5.32, 5.3);
+      drift("#v-ex2", 10.62, 5.33);
+      drift("#v-ex3a", 15.95, 2.67);
+      drift("#v-ex3b", 18.62, 2.62);
+      flash(5.32, 0.9);
+      flash(10.62, 0.6);
+      flash(15.95, 0.6);
+      flash(18.62, 0.4);
+      [
+        ["#ex1", 5.32, 5.3],
+        ["#ex2", 10.62, 5.33],
+        ["#ex3", 15.95, 5.29],
+      ].forEach(([m, t, d]) => {
+        tl.fromTo(m + " .count", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, ease: "back.out(2)" }, t + 0.03);
+        tl.fromTo(m + " .h", { x: -700, opacity: 0, skewX: 10 }, { x: 0, opacity: 1, skewX: 0, duration: 0.35, ease: "power4.out" }, t + 0.08);
+        tl.fromTo(m + " .target", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(2.5)" }, t + 0.53);
+        tl.fromTo(m + " .cap", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, t + 1.06);
+        tl.fromTo(m + " .bar", { opacity: 0 }, { opacity: 1, duration: 0.2 }, t + 1.06);
+        tl.fromTo(m + " .bar i", { scaleX: 0 }, { scaleX: 1, duration: d - 1.3, ease: "none" }, t + 1.06);
+        tl.to(m + " .move", { x: -900, duration: 0.2, ease: "power3.in" }, t + d - 0.22);
+      });
+
+      // ---------------- PROGRAM (21.24–24.43) ----------------
+      flash(21.24, 0.9);
+      tl.fromTo("#prog", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 21.24);
+      tl.fromTo("#pg-k", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25 }, 21.26);
+      tl.fromTo("#pg-a", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.28, ease: "power4.out" }, 21.3);
+      tl.fromTo("#pg-b", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.28, ease: "power4.out" }, 21.77);
+      tl.fromTo("#timer", { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(2)" }, 22.3);
+      tl.fromTo("#timer-arc", { attr: { "stroke-dashoffset": 691 } }, { attr: { "stroke-dashoffset": 0 }, duration: 1.8, ease: "none" }, 22.4);
+      tl.fromTo("#pg-c", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 }, 22.5);
+      [["#s1", 22.84], ["#s2", 23.36], ["#s3", 23.9]].forEach(([s, t]) => {
+        tl.fromTo(s, { backgroundColor: "rgba(255,255,255,0.12)", color: "#ffffff", scale: 1 }, { backgroundColor: "#ffd23f", color: "#111111", scale: 1.15, duration: 0.18, ease: "back.out(3)", immediateRender: false }, t);
+        tl.to(s, { scale: 1, duration: 0.2 }, t + 0.25);
+      });
+      tl.to("#prog", { opacity: 0, duration: 0.12 }, 24.31);
+
+      // ---------------- USP 1: bersegi (24.43–30.28) ----------------
+      punch("#v-u1a", 24.43, 1.59, 1.2, 1.05);
+      punch("#v-u1b", 26.02, 1.59, 1.2, 1.05);
+      drift("#v-u1c", 27.61, 2.67, 1.1, 1.0);
+      flash(24.43, 0.7);
+      flash(26.02, 0.5);
+      flash(27.61, 0.5);
+      tl.fromTo("#u1-t", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power4.out" }, 24.45);
+      tl.fromTo("#octo-line", { attr: { "stroke-dashoffset": 730 } }, { attr: { "stroke-dashoffset": 0 }, duration: 1.0, ease: "power2.inOut" }, 24.55);
+      tl.fromTo("#octo", { rotation: -30, scale: 0.85 }, { rotation: 0, scale: 1, duration: 1.0, ease: "power2.out" }, 24.55);
+      bump("#octo", 25.49, 1.1);
+      tl.to("#octo", { opacity: 0, scale: 1.15, duration: 0.18 }, 25.86);
+      tl.fromTo("#ck1", { x: -700, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power4.out" }, 26.04);
+      tl.fromTo("#ck1 svg", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 26.28);
+      tl.fromTo("#roll", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 27.63);
+      tl.fromTo(["#cap1", "#cap2"], { opacity: 0 }, { opacity: 1, duration: 0.2 }, 27.8);
+      tl.fromTo("#ball", { x: 0, rotation: 0 }, { x: 640, rotation: 520, duration: 1.0, ease: "power1.in" }, 28.14);
+      tl.fromTo("#hexa", { rotation: 0 }, { keyframes: [{ rotation: 22 }, { rotation: -10 }, { rotation: 5 }, { rotation: 0 }], duration: 0.8, ease: "power2.out" }, 28.14);
+      tl.fromTo("#ball-x", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 28.95);
+      tl.fromTo("#hexa-ok", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 29.0);
+      tl.fromTo("#ck2", { x: -700, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power4.out" }, 29.21);
+      tl.fromTo("#ck2 svg", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 29.42);
+      tl.to("#usp1", { opacity: 0, duration: 0.12 }, 30.16);
+
+      // ---------------- USP 2: pilihan berat (30.28–34.51) ----------------
+      flash(30.28, 0.9);
+      tl.fromTo("#usp2", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 30.28);
+      tl.fromTo("#u2-a", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power4.out" }, 30.3);
+      tl.fromTo("#u2-b", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power4.out" }, 30.81);
+      ["#wc1", "#wc2", "#wc3"].forEach((c, i) => {
+        tl.fromTo(c, { y: 700, rotation: -8 + i * 8 }, { y: 0, rotation: 0, duration: 0.42, ease: "back.out(1.6)" }, 30.9 + i * 0.2);
+      });
+      [["#wl1", 31.33], ["#wl2", 31.86], ["#wl3", 32.4]].forEach(([l, t], i) => {
+        tl.fromTo(l, { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, t);
+        bump(["#wc1", "#wc2", "#wc3"][i], t, 1.08);
+      });
+      tl.fromTo("#level", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3 }, 31.33);
+      tl.fromTo("#lv-dot", { x: 0 }, { x: 640, duration: 1.6, ease: "power1.inOut" }, 31.4);
+      tl.fromTo("#u2-c", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 32.93);
+      tl.to("#usp2", { opacity: 0, duration: 0.12 }, 34.39);
+
+      // ---------------- CTA (34.51–38.76) ----------------
+      drift("#v-cta", 34.51, 4.25, 1.15, 1.0);
+      flash(34.51, 1);
+      tl.fromTo("#cta", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 34.51);
+      tl.fromTo("#cta-a", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power4.out" }, 34.53);
+      tl.fromTo("#cta-b", { scale: 2.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "power4.in" }, 34.78);
+      tl.fromTo("#cta-c", { scale: 2.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "power4.in" }, 35.32);
+      tl.fromTo("#cta-d", { scale: 2.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "power4.in" }, 35.85);
+      tl.fromTo("#cta .safe", { x: 0 }, { keyframes: [{ x: -12 }, { x: 10 }, { x: -6 }, { x: 0 }], duration: 0.25, ease: "none" }, 36.11);
+      [36.64, 37.18, 37.7, 38.23].forEach((t) => bump("#cta-d", t, 1.08));
+      tl.fromTo("#save-st2", { scale: 0, rotation: -14 }, { scale: 0.82, rotation: -3, duration: 0.4, ease: "back.out(2.2)" }, 36.64);
+      [37.18, 37.7, 38.23].forEach((t) => tl.fromTo("#save-st2", { scale: 0.88 }, { scale: 0.82, duration: 0.25, ease: "power2.out", immediateRender: false }, t));
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
