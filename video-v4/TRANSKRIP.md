@@ -11,8 +11,8 @@ beginners hingga professional · **CTA 2** "Nak trim peha gelebeh, start dumbbel
 - Folder Drive (semua halaman disemak): **13 video + "Sound 1"**, tiada fail baru sejak v3.
 - Semua 13 klip ditranskrip dengan Whisper `large-v3` (Bahasa Melayu, VAD): **tiada percakapan**.
   Audio asal dimatikan.
-- Muzik: brief tidak menyebut muzik, jadi **Sound 1** daripada folder digunakan semula (instrumental,
-  113 BPM), bermula pada downbeat 17.015s dengan fade-out 1.6s.
+- **Tiada muzik latar** (atas permintaan). Audio video hanya sound effect. Potongan masih mengikut
+  grid tempo 113 BPM (0.53s setiap beat) supaya rentak suntingan kekal konsisten.
 
 ## 2. Pemilihan rakaman senaman
 
@@ -24,7 +24,7 @@ beginners hingga professional · **CTA 2** "Nak trim peha gelebeh, start dumbbel
 
 Tidak digunakan: squat jump, squat + front raise, reverse lunge (bukan dalam brief), serta unboxing.
 
-## 3. Skrip on-screen (38.76s = 73 beat, 1080×1920 @ 60fps)
+## 3. Skrip on-screen (38.76s, 1080×1920 @ 60fps)
 
 | Masa | Shot | Teks on-screen (saiz) | SFX |
 |---|---|---|---|
